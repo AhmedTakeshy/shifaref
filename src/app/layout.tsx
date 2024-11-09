@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Urbanist } from "next/font/google";
 import "@/styles/globals.css";
 
-const roboto = Roboto({
+const urbanist = Urbanist({
   subsets: ["latin"],
   display: 'swap',
-  weight: ["400", "500", "700", "900"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.className} antialiased`}
+        className={`${urbanist.className} antialiased`}
       >
         {children}
       </body>
