@@ -50,7 +50,7 @@ export default {
 					'4': 'hsl(var(--chart-4))',
 					'5': 'hsl(var(--chart-5))'
 				},
-				"shades-gray": {
+				"grey": {
 					99: "#FCFCFC",
 					97: "#F7F7F7",
 					95: "#F2F2F2",
@@ -88,7 +88,18 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
-			}
+			},
+			container: {
+				center: true,
+				padding: {
+					DEFAULT: '1rem',
+					"sm": '1rem',
+					"md": '2rem',
+					"lg": '3rem',
+					"xl": '4rem',
+					"2xl": '5rem',
+				},
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
