@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Banner() {
     return (
-        <div className="flex sm:flex-row flex-col justify-between items-center mb-12">
+        <section className="flex sm:flex-row flex-col justify-between items-center mb-12">
             <Image src="/imgs/woman-banner.png" alt="hero" width={711} height={712} />
             <article className="justify-center flex-col flex container my-12 gap-y-4 text-dark-green-15 text-center sm:text-left">
                 <h2 className="border-b border-light-green-70 text-lg lg:text-3xl sm:text-xl font-semibold mx-auto sm:mx-0 sm:w-fit">Transform Your ❤️ Health with</h2>
@@ -14,6 +14,6 @@ export default function Banner() {
                 <Button className="bg-light-green-70 text-dark-green-15 border border-transparent hover:border-light-green-70 hover:bg-transparent transition-colors duration-300">Get Start Today</Button>
                 <Button className="bg-light-green-85 text-dark-green-15 border border-transparent hover:border-light-green-85 hover:bg-transparent transition-colors duration-300">Book Demo</Button>
             </div>
-        </div>
+        </section>
     )
 }
