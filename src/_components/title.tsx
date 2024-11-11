@@ -7,11 +7,11 @@ type TitleProps = {
 
 export default function Title({ title, subtitle }: TitleProps) {
     return (
-        <div className="">
+        <div className="flex flex-col gap-2 my-16 text-center">
             <h2 className="text-grey-15 font-bold text-[28px] md:text-[38px] xl:text-[48px]">
                 {title}
             </h2>
-            <p className="text-grey-20 text-sm md:text-base xl:text-lg">
+            <p className="text-sm text-grey-20 md:text-base xl:text-lg">
                 {subtitle}
             </p>
         </div>
