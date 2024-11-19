@@ -10,7 +10,7 @@ export default function FeatureCard({ iconSrc, title, description }: FeatureCard
     return (
         <div className='grid grid-cols-[auto,1fr] p-7 sm:p-10 lg:px-[50px] bg-light-green-85 rounded-lg gap-x-4 items-center gap-y-5'>
             <div className="flex items-center justify-center p-[12px] rounded-md bg-light-green-70">
-                <Image src={iconSrc} alt={title} width={30} height={30} loading='lazy' />
+                <Image src={iconSrc} alt={title} width={30} height={30} loading='lazy' className='w-[30px] h-[30px]' />
             </div>
             <h3 className='text-lg font-semibold lg:text-2xl sm:text-xl'>
                 {title}

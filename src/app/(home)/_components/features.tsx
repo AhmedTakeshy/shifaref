@@ -36,7 +36,7 @@ const features = [
 ]
 export default function Features() {
     return (
-        <section id='features' className='container flex flex-col items-center'>
+        <section id='features' className='container flex flex-col items-center mb-12'>
             <Title title='Features' subtitle='Welcome to the Feature Section of Nutritionist, your ultimate destination for all things nutrition and wellness.' />
             <article className='grid gap-5 sm:grid-cols-2 lg:gap-8'>
                 {features.map((feature, index) => (
