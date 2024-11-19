@@ -4,12 +4,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import Link from "next/link";
+import { Carousel, CarouselContent, CarouselItem } from "@/_components/ui/carousel";
 type ProductCardProps = {
     id: number;
     title: string;
     price: string;
     category: string;
-    imageSrc: string;
+    imageSrc: string | string[];
     checkoutUrl: string;
     detailsUrl: string;
     description: () => JSX.Element;
@@ -87,7 +88,7 @@ export default function ProductCard({ title, imageSrc, checkoutUrl, description,
                                     priority
                                     width={960}
                                     height={640}
-                                    src={active.imageSrc}
+                                    src={typeof active.imageSrc === "string" ? active.imageSrc : active.imageSrc[0] || ""}
                                     alt={active.title}
                                     className="object-cover object-top w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg"
                                 />
@@ -164,13 +165,33 @@ export default function ProductCard({ title, imageSrc, checkoutUrl, description,
             >
                 <div className="flex flex-col w-full gap-4">
                     <motion.div layoutId={`image-${title}-${id}`}>
-                        <Image
-                            width={960}
-                            height={640}
-                            src={imageSrc}
-                            alt={title}
-                            className="object-cover object-top w-full rounded-lg h-60"
-                        />
+                        <Carousel>
+                            <CarouselContent>
+                                {typeof imageSrc === "string" ? (
+                                    <CarouselItem>
+                                        <Image
+                                            width={960}
+                                            height={640}
+                                            src={imageSrc}
+                                            alt={title}
+                                            className="object-cover object-top w-full rounded-lg h-60"
+                                        />
+                                    </CarouselItem>
+                                ) : (
+                                    imageSrc.map((src, index) => (
+                                        <CarouselItem key={index}>
+                                            <Image
+                                                width={960}
+                                                height={640}
+                                                src={src}
+                                                alt={title}
+                                                className="object-cover object-top w-full rounded-lg h-60"
+                                            />
+                                        </CarouselItem>
+                                    ))
+                                )}
+                            </CarouselContent>
+                        </Carousel>
                     </motion.div>
                     <div className="flex flex-col items-center justify-center">
                         <motion.h3

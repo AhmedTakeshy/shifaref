@@ -18,7 +18,16 @@ const products = [
         category: 'body care',
         price: "10.99",
         checkoutUrl: "https://checkout.com",
-        imageSrc: "/crave/Crave_Burner_PRO1.jpg",
+        imageSrc: [
+            '/crave/Crave_Burner_PRO1.jpg',
+            '/crave/Crave_Burner_PRO2.jpg',
+            '/crave/Crave_Burner_PRO3.jpg',
+            '/crave/Crave_Burner_PRO4.jpg',
+            '/crave/Crave_Burner_PRO5.jpg',
+            '/crave/Crave_Burner_PRO6.jpg',
+            '/crave/Crave_Burner_PRO7.jpg',
+            '/crave/Crave_Burner_PRO8.jpg',
+        ],
         detailsUrl: '/products/nail-polish',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
         Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
