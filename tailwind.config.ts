@@ -100,7 +100,22 @@ export default {
 					"2xl": '5rem',
 				},
 			},
-		}
+		},
+		keyframes: {
+			text: {
+				"0%, 100%": {
+					"background-size": "200% 200%",
+					"background-position": "left center",
+				},
+				"50%": {
+					"background-size": "200% 200%",
+					"background-position": "right center",
+				},
+			},
+		},
+		animation: {
+			text: "text 5s infinite ease",
+		},
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
