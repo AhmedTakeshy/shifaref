@@ -14,7 +14,10 @@ import newLogo from "@/../public/imgs/logo.png"
 import { Button } from "@/_components/ui/button"
 
 type NavbarProps = {
-  links: string[]
+  links: {
+    href: string
+    label: string
+  }[]
 }
 
 
@@ -47,10 +50,10 @@ export default function Navbar({ links }: NavbarProps) {
         <NavigationMenuList className="items-center justify-between hidden gap-2 md:flex">
 
           {links.map((link) => (
-            <NavigationMenuItem key={link}>
-              <Link href={`/${link.toLowerCase() === "home" ? "/" : link.toLowerCase()}`} legacyBehavior passHref>
-                <NavigationMenuLink className={`${navigationMenuTriggerStyle()} hover:bg-transparent bg-transparent hover:text-light-green-70 text-white`}>
-                  {link}
+            <NavigationMenuItem key={link.label}>
+              <Link href={`${link.href}`} legacyBehavior passHref>
+                <NavigationMenuLink className={`${navigationMenuTriggerStyle()} hover:bg-transparent bg-transparent hover:text-light-green-70 text-white border-2 border-transparent focus:bg-transparent focus:text-light-green-70 focus:border-light-green-70`}>
+                  {link.label}
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
@@ -90,13 +93,13 @@ export default function Navbar({ links }: NavbarProps) {
               <NavigationMenu>
                 <NavigationMenuList className="flex flex-col items-center justify-center gap-2">
                   {links.map((link) => (
-                    <NavigationMenuItem key={link} >
-                      <Link href={`/${link.toLowerCase() === "home" ? "/" : link.toLowerCase()}`} legacyBehavior passHref>
+                    <NavigationMenuItem key={link.label} >
+                      <Link href={`${link.href}`} legacyBehavior passHref>
                         <NavigationMenuLink
                           onClick={() => setOpen(false)}
-                          className={`${navigationMenuTriggerStyle()} hover:bg-transparent bg-transparent hover:text-light-green-70 text-white`}
+                          className={`${navigationMenuTriggerStyle()} hover:bg-transparent bg-transparent hover:text-light-green-70 text-white border-2 border-transparent focus:bg-transparent focus:text-light-green-70 focus:border-light-green-70`}
                         >
-                          {link}
+                          {link.label}
                         </NavigationMenuLink>
                       </Link>
                     </NavigationMenuItem>
