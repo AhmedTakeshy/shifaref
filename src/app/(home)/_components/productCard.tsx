@@ -126,8 +126,8 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
                                     </CarouselContent>
                                     <div className="flex items-center justify-between mx-4 mt-3">
                                         <div className="flex items-center gap-2">
-                                            <CarouselPrevious className="static translate-y-0" />
-                                            <CarouselNext className="static translate-y-0" />
+                                            <CarouselPrevious className="static translate-y-0 bg-light-green-95 border border-light-green-90 hover:bg-light-green-90 text-grey-20" />
+                                            <CarouselNext className="static translate-y-0 bg-light-green-95 border border-light-green-90 hover:bg-light-green-90 text-grey-20" />
                                         </div>
                                         <ul className="flex items-center gap-3">
                                             {Array.from({ length: count }).map((_, index) => (
