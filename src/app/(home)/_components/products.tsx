@@ -1,16 +1,8 @@
 "use client"
 import Title from "@/_components/title";
 import ProductCard from "./productCard";
-// [
-//     '/crave/Crave_Burner_PRO1.jpg',
-//     '/crave/Crave_Burner_PRO2.jpg',
-//     '/crave/Crave_Burner_PRO3.jpg',
-//     '/crave/Crave_Burner_PRO4.jpg',
-//     '/crave/Crave_Burner_PRO5.jpg',
-//     '/crave/Crave_Burner_PRO6.jpg',
-//     '/crave/Crave_Burner_PRO7.jpg',
-//     '/crave/Crave_Burner_PRO8.jpg',
-// ],
+
+
 const products = [
     {
         id: 1,
@@ -18,7 +10,7 @@ const products = [
         category: 'body care',
         price: "10.99",
         checkoutUrl: "https://checkout.com",
-        imageSrc: [
+        imagesSrc: [
             '/crave/Crave_Burner_PRO1.jpg',
             '/crave/Crave_Burner_PRO2.jpg',
             '/crave/Crave_Burner_PRO3.jpg',
@@ -41,7 +33,18 @@ const products = [
         category: 'body care',
         price: "15.99",
         checkoutUrl: "https://checkout.com",
-        imageSrc: '/eyevita/Eyevita-Plus-PRO1.jpg',
+        imagesSrc: [
+            '/eyevita/Eyevita-Plus-PRO1.jpg',
+            '/eyevita/Eyevita-Plus-PRO2.jpg',
+            '/eyevita/Eyevita-Plus-PRO3.jpg',
+            '/eyevita/Eyevita-Plus-PRO4.jpg',
+            '/eyevita/Eyevita-Plus-PRO5.jpg',
+            '/eyevita/Eyevita-Plus-PRO6.jpg',
+            '/eyevita/Eyevita-Plus-PRO7.jpg',
+            '/eyevita/Eyevita-Plus-PRO8.jpg',
+            '/eyevita/Eyevita-Plus-PRO9.jpg',
+            '/eyevita/Eyevita-Plus-PRO10.jpg',
+        ],
         detailsUrl: '/products/lipstick',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
         Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
@@ -55,7 +58,17 @@ const products = [
         category: 'body care',
         price: "12.99",
         checkoutUrl: "https://checkout.com",
-        imageSrc: '/flex/Flexomore_PRO1.jpg',
+        imagesSrc: [
+            '/flex/Flexomore_PRO1.jpg',
+            '/flex/Flexomore_PRO2.jpg',
+            '/flex/Flexomore_PRO3.jpg',
+            '/flex/Flexomore_PRO4.jpg',
+            '/flex/Flexomore_PRO5.jpg',
+            '/flex/Flexomore_PRO6.jpg',
+            '/flex/Flexomore_PRO7.jpg',
+            '/flex/Flexomore_PRO8.jpg',
+            '/flex/Flexomore_PRO9.jpg',
+        ],
         detailsUrl: '/products/mascara',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
         Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
@@ -69,7 +82,16 @@ const products = [
         category: 'body care',
         price: "25.99",
         checkoutUrl: "https://checkout.com",
-        imageSrc: '/matcha/Matcha-Extreme-PRO1.jpg',
+        imagesSrc: [
+            '/matcha/Matcha-Extreme-PRO1.jpg',
+            '/matcha/Matcha-Extreme-PRO2.jpg',
+            '/matcha/Matcha-Extreme-PRO3.jpg',
+            '/matcha/Matcha-Extreme-PRO4.jpg',
+            '/matcha/Matcha-Extreme-PRO5.jpg',
+            '/matcha/Matcha-Extreme-PRO6.jpg',
+            '/matcha/Matcha-Extreme-PRO7.jpg',
+            '/matcha/Matcha-Extreme-PRO8.jpg',
+        ],
         detailsUrl: '/products/eyeshadow-palette',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
                     Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
@@ -83,7 +105,18 @@ const products = [
         category: 'body care',
         price: "19.99",
         checkoutUrl: "https://checkout.com",
-        imageSrc: '/prenatalin/Prenatalin_PRO_1.jpg',
+        imagesSrc: [
+            '/prenatalin/Prenatalin_PRO_1.jpg',
+            '/prenatalin/Prenatalin_PRO_2.jpg',
+            '/prenatalin/Prenatalin_PRO_3.jpg',
+            '/prenatalin/Prenatalin_PRO_4.jpg',
+            '/prenatalin/Prenatalin_PRO_5.jpg',
+            '/prenatalin/Prenatalin_PRO_6.jpg',
+            '/prenatalin/Prenatalin_PRO_7.jpg',
+            '/prenatalin/Prenatalin_PRO_8.jpg',
+            '/prenatalin/Prenatalin_PRO_9.jpg',
+            '/prenatalin/Prenatalin_PRO_10.jpg',
+        ],
         detailsUrl: '/products/foundation',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
                     Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
@@ -97,7 +130,14 @@ const products = [
         category: 'body care',
         price: "29.99",
         checkoutUrl: "https://checkout.com",
-        imageSrc: '/prostan/Prostan-Plus-PRO1.jpg',
+        imagesSrc: [
+            '/prostan/Prostan-Plus-PRO1.jpg',
+            '/prostan/Prostan-Plus-PRO2.jpg',
+            '/prostan/Prostan-Plus-PRO3.jpg',
+            '/prostan/Prostan-Plus-PRO4.jpg',
+            '/prostan/Prostan-Plus-PRO5.jpg',
+            '/prostan/Prostan-Plus-PRO6.jpg',
+        ],
         detailsUrl: '/products/makeup-brushes',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
                     Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
@@ -106,94 +146,7 @@ const products = [
                     `,
     },
 ]
-// const cards = [
-//     {
-//         subtitle: "Lana Del Rey",
-//         title: "Summertime Sadness",
-//         imageSrc: "https://assets.aceternity.com/demos/lana-del-rey.jpeg",
-//         checkoutUrl: "https://ui.aceternity.com/templates",
-//         description: () => {
-//             return (
-//                 <p>
-//                     Lana Del Rey, an iconic American singer-songwriter, is celebrated for
-//                     her melancholic and cinematic music style. Born Elizabeth Woolridge
-//                     Grant in New York City, she has captivated audiences worldwide with
-//                     her haunting voice and introspective lyrics. <br /> <br /> Her songs
-//                     often explore themes of tragic romance, glamour, and melancholia,
-//                     drawing inspiration from both contemporary and vintage pop culture.
-//                     With a career that has seen numerous critically acclaimed albums, Lana
-//                     Del Rey has established herself as a unique and influential figure in
-//                     the music industry, earning a dedicated fan base and numerous
-//                     accolades.
-//                 </p>
-//             );
-//         },
-//     },
-//     {
-//         subtitle: "Babbu Maan",
-//         title: "Mitran Di Chhatri",
-//         imageSrc: "https://assets.aceternity.com/demos/babbu-maan.jpeg",
-//         checkoutUrl: "https://ui.aceternity.com/templates",
-//         description: () => {
-//             return (
-//                 <p>
-//                     Babu Maan, a legendary Punjabi singer, is renowned for his soulful
-//                     voice and profound lyrics that resonate deeply with his audience. Born
-//                     in the village of Khant Maanpur in Punjab, India, he has become a
-//                     cultural icon in the Punjabi music industry. <br /> <br /> His songs
-//                     often reflect the struggles and triumphs of everyday life, capturing
-//                     the essence of Punjabi culture and traditions. With a career spanning
-//                     over two decades, Babu Maan has released numerous hit albums and
-//                     singles that have garnered him a massive fan following both in India
-//                     and abroad.
-//                 </p>
-//             );
-//         },
-//     },
 
-//     {
-//         subtitle: "Metallica",
-//         title: "For Whom The Bell Tolls",
-//         imageSrc: "https://assets.aceternity.com/demos/metallica.jpeg",
-//         checkoutUrl: "https://ui.aceternity.com/templates",
-//         description: () => {
-//             return (
-//                 <p>
-//                     Metallica, an iconic American heavy metal band, is renowned for their
-//                     powerful sound and intense performances that resonate deeply with
-//                     their audience. Formed in Los Angeles, California, they have become a
-//                     cultural icon in the heavy metal music industry. <br /> <br /> Their
-//                     songs often reflect themes of aggression, social issues, and personal
-//                     struggles, capturing the essence of the heavy metal genre. With a
-//                     career spanning over four decades, Metallica has released numerous hit
-//                     albums and singles that have garnered them a massive fan following
-//                     both in the United States and abroad.
-//                 </p>
-//             );
-//         },
-//     },
-//     {
-//         subtitle: "Lord Himesh",
-//         title: "Aap Ka Suroor",
-//         imageSrc: "https://assets.aceternity.com/demos/aap-ka-suroor.jpeg",
-//         checkoutUrl: "https://ui.aceternity.com/templates",
-//         description: () => {
-//             return (
-//                 <p>
-//                     Himesh Reshammiya, a renowned Indian music composer, singer, and
-//                     actor, is celebrated for his distinctive voice and innovative
-//                     compositions. Born in Mumbai, India, he has become a prominent figure
-//                     in the Bollywood music industry. <br /> <br /> His songs often feature
-//                     a blend of contemporary and traditional Indian music, capturing the
-//                     essence of modern Bollywood soundtracks. With a career spanning over
-//                     two decades, Himesh Reshammiya has released numerous hit albums and
-//                     singles that have garnered him a massive fan following both in India
-//                     and abroad.
-//                 </p>
-//             );
-//         },
-//     },
-// ];
 export default function Products() {
     return (
         <section id="products" className='container flex flex-col items-center mb-12'>
