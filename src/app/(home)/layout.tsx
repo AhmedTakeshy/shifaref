@@ -1,5 +1,6 @@
 
 import NavMenu from "@/_components/navbar"
+import Footer from "./_components/footer"
 // import ScrollButton from "@/components/ScrollButton"
 
 type HomeLayoutProps = Readonly<{
@@ -29,6 +30,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
             <NavMenu links={links} />
             {children}
             {/* <ScrollButton /> */}
+            <Footer />
         </>
     )
 }

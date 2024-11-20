@@ -48,7 +48,6 @@ export default function Navbar({ links }: NavbarProps) {
       </Link>
       <NavigationMenu className={`ml-auto items-center justify-between hidden gap-2 md:flex`}>
         <NavigationMenuList className="items-center justify-between hidden gap-2 md:flex">
-
           {links.map((link) => (
             <NavigationMenuItem key={link.label}>
               <Link href={`${link.href}`} legacyBehavior passHref>
