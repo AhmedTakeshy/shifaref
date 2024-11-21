@@ -1,37 +1,43 @@
 import Title from '@/_components/title'
-import React from 'react'
 import FeatureCard from './featureCard'
+import { FaLeaf, FaSearch, FaBookOpen } from "react-icons/fa";
+import { MdSupportAgent } from "react-icons/md";
+import { IoCalendarOutline } from "react-icons/io5";
+import { GiLotusFlower } from "react-icons/gi";
+
+
+
 
 const features = [
     {
-        iconSrc: '/icons/plant.svg',
-        title: 'Personalized Nutrition Plans',
-        description: 'Receive a tailored nutrition plan designed specifically for your body and goals. Our certified nutritionists will consider your unique needs, dietary preferences, and health conditions to create a plan that suits you best.',
+        icon: <FaLeaf className='size-[30px] text-grey-15' />,
+        title: 'Personalized Wellness Plans',
+        description: "Receive a tailored wellness plan that harmonizes your health and beauty goals. Whether it's skincare routines, supplement recommendations, or fitness guidance, we craft solutions that suit your lifestyle.",
     },
     {
-        iconSrc: '/icons/academic-cap.svg',
-        title: 'Guidance from Certified Nutritionists',
-        description: 'Our team of experienced and certified nutritionists will provide professional guidance and support throughout your journey. They will answer your questions, address your concerns, and keep you motivated as you work towards your goals.',
+        icon: <MdSupportAgent className='size-[30px] text-grey-15' />,
+        title: 'Expert Guidance from Wellness Professionals',
+        description: "Our team of experienced wellness experts, including skincare specialists and nutritionists, offers professional support and personalized advice to help you achieve a balanced and vibrant lifestyle.",
     },
     {
-        iconSrc: '/icons/fork.svg',
-        title: 'Food Tracking and Analysis',
-        description: 'Effortlessly track your food intake using our user-friendly app. Our nutritionists will analyze your data to provide insights into your eating habits, help you identify areas for improvement, and make personalized recommendations.',
+        icon: <FaSearch className='size-[30px] text-grey-15' />,
+        title: 'Product Recommendations and Analysis',
+        description: "Discover the best products for your unique needs. From skincare to dietary supplements, our experts analyze your preferences and recommend high-quality solutions to enhance your daily routine.",
     },
     {
-        iconSrc: '/icons/note.svg',
-        title: 'Meal Planning and Recipes',
-        description: 'Access a vast collection of delicious and healthy recipes tailored to your dietary needs. Our nutritionists will also create personalized meal plans, making it easier for you to stay on track and enjoy nutritious meals.',
+        icon: <IoCalendarOutline className='size-[30px] text-grey-15' />,
+        title: 'Curated Beauty and Health Routines',
+        description: "Access thoughtfully designed routines and tips for glowing skin, holistic health, and a revitalized appearance. Our guides make it easy to integrate effective practices into your life.",
     },
     {
-        iconSrc: '/icons/dumbbell.svg',
-        title: 'Lifestyle and Behavior Coaching',
-        description: 'Achieving sustainable results requires more than just a diet plan. Our nutritionists will work with you to develop healthy habits, address emotional eating, and provide strategies to overcome obstacles along the way.',
+        icon: <GiLotusFlower className='size-[30px] text-grey-15' />,
+        title: 'Lifestyle and Self-Care Coaching',
+        description: "Embrace a holistic approach to well-being with personalized coaching that supports your beauty, health, and emotional wellness. Build sustainable habits that elevate your quality of life.",
     },
     {
-        iconSrc: '/icons/bag.svg',
-        title: 'Nutritional Education and Workshops',
-        description: 'Expand your knowledge of nutrition through informative articles and educational workshops. Our nutritionists will equip you with the knowledge and tools to make informed choices for long-term success.',
+        icon: <FaBookOpen className='size-[30px] text-grey-15' />,
+        title: 'Workshops and Knowledge Sharing',
+        description: "Stay informed with educational resources, including articles, researches, and papers. Learn how to harness the power of nature and science to nurture your health and beauty.",
     },
 ]
 export default function Features() {
