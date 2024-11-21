@@ -150,7 +150,9 @@ const products = [
 export default function Products() {
     return (
         <section id="products" className='container flex flex-col items-center mb-12'>
-            <Title title='Our Products' subtitle='Here you can find everything you are looking for.' />
+            <Title
+                title='Exclusive Collection'
+                subtitle={`Whatever you need to elevate your health and beauty, you'll find it here.`} />
             <ul className='grid gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 lg:gap-8 md:gap-6'>
                 {products.map((product) => {
                     const contnet = () => <p>{product.description}</p>
