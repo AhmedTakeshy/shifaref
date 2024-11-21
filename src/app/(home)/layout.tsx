@@ -1,7 +1,7 @@
 
 import NavMenu from "@/_components/navbar"
 import Footer from "./_components/footer"
-// import ScrollButton from "@/components/ScrollButton"
+import ScrollButton from "@/_components/scrollButton"
 
 type HomeLayoutProps = Readonly<{
     children: React.ReactNode
@@ -17,7 +17,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
             label: "About"
         },
         {
-            href: "#products",
+            href: "/#products",
             label: "Products"
         },
         {
@@ -29,7 +29,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
         <>
             <NavMenu links={links} />
             {children}
-            {/* <ScrollButton /> */}
+            <ScrollButton />
             <Footer />
         </>
     )
