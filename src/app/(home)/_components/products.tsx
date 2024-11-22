@@ -1,6 +1,8 @@
 "use client"
 import Title from "@/_components/title";
 import ProductCard from "./productCard";
+import Search from "@/_components/search";
+import { useSearchParams } from "next/navigation";
 
 
 const products = [
@@ -148,22 +150,27 @@ const products = [
 ]
 
 export default function Products() {
+    const searchParams = useSearchParams()
     return (
         <section id="products" className='container flex flex-col items-center mb-12'>
             <Title
                 title='Exclusive Collection'
                 subtitle={`Whatever you need to elevate your health and beauty, you'll find it here.`} />
+            <Search />
             <ul className='grid gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 lg:gap-8 md:gap-6'>
-                {products.map((product) => {
-                    const contnet = () => <p>{product.description}</p>
-                    return (
-                        <ProductCard
-                            key={product.id}
-                            {...product}
-                            description={contnet}
-                        />
-                    )
-                })}
+                {products
+                    .filter(product => product.title.toLowerCase().includes(searchParams.get('q')?.toLowerCase() || ''))
+                    .map((product) => {
+                        const contnet = () => <p>{product.description}</p>
+                        return (
+                            <ProductCard
+                                key={product.id}
+                                {...product}
+                                description={contnet}
+                            />
+                        )
+                    })
+                }
             </ul>
         </section>
     )
