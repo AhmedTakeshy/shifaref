@@ -31,3 +31,5 @@ export const signInSchema = z.object({
         message: "Password must be at least 8 characters",
     })
 })
+
+export type ContactSchema = z.infer<typeof contactSchema>;
