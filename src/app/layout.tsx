@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import "@/styles/globals.css";
+import { Toaster } from "@/_components/ui/sonner"
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body
         className={`${urbanist.className} antialiased`}
       >
+        <Toaster richColors />
         {children}
       </body>
     </html>

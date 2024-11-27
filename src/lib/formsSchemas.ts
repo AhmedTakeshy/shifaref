@@ -33,3 +33,4 @@ export const signInSchema = z.object({
 })
 
 export type ContactSchema = z.infer<typeof contactSchema>;
+export type SignInSchema = z.infer<typeof signInSchema>;
