@@ -1,6 +1,7 @@
 import { navigationMenuTriggerStyle, NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from '@/_components/ui/navigation-menu'
 import Link from 'next/link'
 import Image from 'next/image'
+import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa'
 
 const links = [
     {
@@ -39,15 +40,15 @@ export default function Footer() {
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>
-            <ul className='flex flex-col sm:flex-row sm:justify-between gap-4 p-4 bg-dark-green-20 rounded-lg justify-center text-center'>
+            <ul className='flex flex-col sm:flex-row sm:justify-between gap-4 p-4 bg-dark-green-20 rounded-lg justify-center text-center text-white'>
                 <li className='border border-dark-green-25 p-3 flex items-center rounded justify-center'>
-                    <Image src={"/icons/envelope.svg"} alt='envelope icon' className=" mr-1" width={20} height={20} />
+                    <FaEnvelope className='size-4 mr-2 text-light-green-70' />
                     <Link href={"mailto:arefabu@gmail.com"}>
                         Arefabu@gmail.com
                     </Link>
                 </li>
                 <li className='border border-dark-green-25 p-3 flex items-center rounded justify-center'>
-                    <Image src={"/icons/phone.svg"} alt='phone icon' className=" mr-1" width={20} height={20} />
+                    <FaPhoneAlt className='size-4 mr-2 text-light-green-70' />
                     <p>
                         +972 54 429 2892
                     </p>
