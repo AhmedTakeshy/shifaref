@@ -17,12 +17,12 @@ export default function About() {
                 products. Don't forget to invoke “the healing prayers”"  />
             <Title
                 title='Our Mission'
-                subtitle={`At SHIFAREF, we are driven by a passion for natural remedies and holistic health. Our goal is to enhance your well-being with premium products that combine the healing power of nature with scientific expertise.`} subtitleClassName=' w-4/5' className='text-center mx-auto' />
+                subtitle={`At SHIFAREF, we are driven by a passion for natural remedies and holistic health. Our goal is to enhance your well-being with premium products that combine the healing power of nature with scientific expertise.`} subtitleClassName='mx-auto w-4/5' />
             <div className='text-center w-full'>
                 <Title
                     title='What We Offer'
-                    subtitle={`From skincare and cosmetics to dietary supplements and wellness solutions, we bring you a curated selection of products designed to promote health, beauty, and vitality. Our offerings include:`} subtitleClassName=' w-4/5' />
-                <ul className='grid sm:grid-cols-2 lg:grid-cols-4 gap-5'>
+                    subtitle={`From skincare and cosmetics to dietary supplements and wellness solutions, we bring you a curated selection of products designed to promote health, beauty, and vitality. Our offerings include:`} subtitleClassName='mx-auto w-4/5' />
+                <ul className='grid sm:grid-cols-2 gap-5 mx-auto max-w-3xl'>
                     <li className='border border-light-green-85 bg-light-green-95 rounded-lg p-2'>Skincare essentials like anti-aging creams, serums, and masks.</li>
                     <li className='border border-light-green-85 bg-light-green-95 rounded-lg p-2'>Health and wellness supplements for a balanced lifestyle.</li>
                     <li className='border border-light-green-85 bg-light-green-95 rounded-lg p-2'>Premium perfumes and beauty accessories.</li>

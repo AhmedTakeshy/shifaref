@@ -3,6 +3,7 @@ import { MdSearch } from "react-icons/md"
 import { useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/_components/ui/button"
+import CategoryFilter from "@/app/(home)/_components/categoryFilter"
 
 export default function Search() {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -15,23 +16,20 @@ export default function Search() {
 
     if (value) {
       updatedQuery.set("q", value)
-      updatedQuery.delete("page")
     } else {
       updatedQuery.delete("q")
-      updatedQuery.delete("page")
     }
 
     const url = new URL(window.location.href)
     url.search = updatedQuery.toString()
     window.history.pushState({}, "", url.toString())
-
     inputRef.current?.blur()
   }
 
   const handleReset = () => {
     const updatedQuery = new URLSearchParams(searchParams.toString())
     updatedQuery.delete("q")
-    updatedQuery.delete("page")
+    updatedQuery.delete("category")
 
     const url = new URL(window.location.href)
     url.search = updatedQuery.toString()
@@ -42,7 +40,7 @@ export default function Search() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2 w-full mb-12">
+    <div className="flex flex-col items-center justify-center gap-2 w-full mb-12 container">
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -72,9 +70,12 @@ export default function Search() {
           </Button>
         </div>
       </form>
-      <Button onClick={handleReset} size={"sm"}>
-        Reset
-      </Button>
+      <div className="flex items-center gap-4">
+        <CategoryFilter />
+        <Button onClick={handleReset} size={"sm"} className="bg-light-green-70 text-dark-green-15 hover:bg-light-green-80">
+          Reset
+        </Button>
+      </div>
     </div>
   )
 }

@@ -4,12 +4,11 @@ import ProductCard from "./productCard";
 import Search from "@/_components/search";
 import { useSearchParams } from "next/navigation";
 
-
 const products = [
     {
         id: 1,
         title: 'Crave Burner',
-        category: 'body care',
+        category: 'cosmetics',
         price: "10.99",
         checkoutUrl: "https://checkout.com",
         imagesSrc: [
@@ -32,7 +31,7 @@ const products = [
     {
         id: 2,
         title: 'Eyevita',
-        category: 'body care',
+        category: 'Supplements',
         price: "15.99",
         checkoutUrl: "https://checkout.com",
         imagesSrc: [
@@ -155,18 +154,22 @@ export default function Products() {
         <section id="products" className='container flex flex-col items-center mb-12'>
             <Title
                 title='Exclusive Collection'
-                subtitle={`Whatever you need to elevate your health and beauty, you'll find it here.`} />
+                subtitle={`Whatever you need to elevate your health and beauty, you'll find it here.`}
+            />
             <Search />
-            <ul className='grid gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 lg:gap-8 md:gap-6'>
+            <ul className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 '>
                 {products
-                    .filter(product => product.title.toLowerCase().includes(searchParams.get('q')?.toLowerCase() || ''))
+                    .filter(product => {
+                        const query = searchParams.get('q')?.toLowerCase() || searchParams.get("category")?.toLowerCase() || '';
+                        return query.includes(product.title.toLowerCase()) || query.includes(product.category.toLowerCase()) || "" === query;
+                    })
                     .map((product) => {
-                        const contnet = () => <p>{product.description}</p>
+                        const content = () => <p>{product.description}</p>
                         return (
                             <ProductCard
                                 key={product.id}
                                 {...product}
-                                description={contnet}
+                                description={content}
                             />
                         )
                     })
