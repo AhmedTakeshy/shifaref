@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Admin() {
     return (
-        <div>Admin</div>
+        <h1>Welcome to the main admin page</h1>
     )
 }
