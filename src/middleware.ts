@@ -1,7 +1,9 @@
 import NextAuth from "next-auth";
 import authConfig from "@/lib/auth.config";
 import { NextResponse } from "next/server";
-import { DEFAULT_LOGIN_REDIRECT, apiRoute, authRoutes, publicRoutes } from "@/routes";
+import { DEFAULT_LOGIN_REDIRECT, apiRoute, authRoutes, notPublicRoutes } from "@/routes";
+
+// export { auth as middleware } from "@/lib/auth"
 
 const { auth } = NextAuth(authConfig);
 
@@ -10,7 +12,7 @@ export default auth(async (req) => {
     const isLoggedIn = !!req.auth;
 
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiRoute);
-    const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+    const isNotPublicRoute = notPublicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
     // The API auth route should be public to anyone
@@ -27,7 +29,7 @@ export default auth(async (req) => {
     }
 
     // Redirect unauthenticated users from protected routes
-    if (!isLoggedIn && !isPublicRoute) {
+    if (!isLoggedIn && isNotPublicRoute) {
         let callbackUrl = nextUrl.pathname;
         if (nextUrl.search) {
             callbackUrl += nextUrl.search;
@@ -46,3 +48,4 @@ export default auth(async (req) => {
 export const config = {
     matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
+

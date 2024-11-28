@@ -4,7 +4,6 @@ CREATE TYPE "Role" AS ENUM ('SUPER_ADMIN', 'ADMIN');
 -- CreateTable
 CREATE TABLE "Contact" (
     "id" SERIAL NOT NULL,
-    "publicId" TEXT NOT NULL,
     "fullName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
@@ -57,9 +56,6 @@ CREATE TABLE "Blog" (
 
     CONSTRAINT "Blog_pkey" PRIMARY KEY ("id")
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "Contact_publicId_key" ON "Contact"("publicId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");

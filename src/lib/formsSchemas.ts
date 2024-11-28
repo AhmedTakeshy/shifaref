@@ -10,9 +10,6 @@ export const contactSchema = z.object({
     email: z.string().email({
         message: "Invalid email address",
     }),
-    subject: z.string().max(50, {
-        message: "Subject must be at most 50 characters long"
-    }),
     phone: z.string().min(11, {
         message: "Phone number must be at least 11 characters long"
     }).max(15, {
@@ -23,7 +20,7 @@ export const contactSchema = z.object({
     })
 });
 
-export const signInSchema = z.object({
+export const loginSchema = z.object({
     email: z.string().trim().email({
         message: "Please enter a valid email address",
     }),
@@ -32,5 +29,51 @@ export const signInSchema = z.object({
     })
 })
 
+export const createAdminSchema = z.object({
+    first_name: z.string().min(3, {
+        message: "Name must be at least 3 characters long"
+    }).max(50, {
+        message: "Name must be at most 50 characters long"
+    }),
+    last_name: z.string().min(3, {
+        message: "Name must be at least 3 characters long"
+    }).max(50, {
+        message: "Name must be at most 50 characters long"
+    }),
+    email: z.string().email({
+        message: "Invalid email address",
+    }),
+    role: z.enum(["ADMIN", "SUPER_ADMIN"]),
+    password: z.string().min(8, {
+        message: "Password must be at least 8 characters long"
+    }),
+    confirmPassword: z.string().min(8, {
+        message: "Password must be at least 8 characters long"
+    })
+}).refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match",
+});
+
+export const updateAdminSchema = z.object({
+    id: z.number().int().positive(),
+    name: z.string().min(3, { message: "Username must be at least 3 characters" }),
+    email: z.string().email({ message: "Please enter a valid email address" }),
+    role: z.enum(["ADMIN", "SUPER_ADMIN"]),
+})
+
+export const updatePasswordSchema = z.object({
+    id: z.number().int().positive(),
+    currentPassword: z.string().min(8, { message: "Password must be at least 8 characters." }),
+    newPassword: z.string().min(8, { message: "Password must be at least 8 characters." }),
+    confirmPassword: z.string().min(8, { message: "Password must be at least 8 characters." }),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match",
+})
+
 export type ContactSchema = z.infer<typeof contactSchema>;
-export type SignInSchema = z.infer<typeof signInSchema>;
+export type LoginSchema = z.infer<typeof loginSchema>;
+export type CreateAdminSchema = z.infer<typeof createAdminSchema>;
+export type UpdateAdminSchema = z.infer<typeof updateAdminSchema>;
+export type UpdatePasswordSchema = z.infer<typeof updatePasswordSchema>;

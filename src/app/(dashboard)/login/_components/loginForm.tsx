@@ -15,20 +15,20 @@ import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { SignInSchema, signInSchema } from "@/lib/formsSchemas"
+import { LoginSchema, loginSchema } from "@/lib/formsSchemas"
 import SubmitButton from "@/_components/submitButton"
 import { signIn } from "next-auth/react"
 
 
-export default function SignInForm() {
+export default function LoginForm() {
 
     const [isPending, setIsPending] = useState<boolean>(false)
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const router = useRouter()
 
 
-    const form = useForm<SignInSchema>({
-        resolver: zodResolver(signInSchema),
+    const form = useForm<LoginSchema>({
+        resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",
             password: "",
@@ -37,10 +37,10 @@ export default function SignInForm() {
 
 
 
-    async function signInCredentials(data: SignInSchema) {
+    async function loginCredentials(data: LoginSchema) {
         setIsPending(true)
         try {
-            const result = await signInSchema.safeParseAsync(data)
+            const result = await loginSchema.safeParseAsync(data)
             if (!result.success) {
                 toast.error("Error!", {
                     description: "Something went wrong with the form data. Please try again.",
@@ -74,7 +74,7 @@ export default function SignInForm() {
     return (
         <Form {...form} >
             <div className="w-full p-4 mb-4 space-y-2 border-2 rounded-md max-sm:max-w-xs border-slate-800 dark:border-slate-400">
-                <form onSubmit={form.handleSubmit(signInCredentials)}
+                <form onSubmit={form.handleSubmit(loginCredentials)}
                     className="space-y-2">
                     <FormField
                         control={form.control}
