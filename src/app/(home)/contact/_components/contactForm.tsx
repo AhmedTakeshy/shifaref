@@ -7,7 +7,7 @@ import { ContactSchema, contactSchema } from "@/lib/formsSchemas"
 import { Input } from "@/_components/ui/input"
 import { Textarea } from "@/_components/ui/textarea"
 import SubmitButton from "@/_components/submitButton"
-// import { contactFormAction } from "@/_actions/userActions"
+import { contactFormAction } from "@/_actions/userActions"
 import { toast } from "sonner"
 
 export default function ContactForm() {
@@ -18,7 +18,6 @@ export default function ContactForm() {
         defaultValues: {
             fullName: "",
             email: "",
-            subject: "",
             phone: "",
             message: "",
         },
@@ -33,8 +32,7 @@ export default function ContactForm() {
                 setIsPending(false)
                 return
             }
-            const res = { statusCode: 200 }
-            // await contactFormAction(result.data)
+            const res = await contactFormAction(result.data)
             if (res.statusCode === 200) {
                 form.reset()
                 toast.success("Contact form submitted successfully", {
@@ -51,7 +49,7 @@ export default function ContactForm() {
 
     return (
         <Form {...form}>
-            <form className="grid sm:grid-cols-2 w-full items-center lg:p-20 sm:p-12 p-7 xl:p-20 border border-light-green-85 bg-light-green-95 rounded-xl gap-[30px]"
+            <form className="grid sm:grid-cols-2 w-full items-center  gap-[30px]"
                 onSubmit={form.handleSubmit(submitContact)}>
                 <FormField
                     control={form.control}
