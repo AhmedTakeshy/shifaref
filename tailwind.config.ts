@@ -119,11 +119,20 @@ export default {
 				to: {
 					transform: "rotate(360deg)"
 				}
+			},
+			pulse: {
+				"0%, 100%": {
+					opacity: "1"
+				},
+				"50%": {
+					opacity: "0.5"
+				}
 			}
 		},
 		animation: {
 			text: "text 5s infinite ease",
 			spin: "spin 1s linear infinite",
+			pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
 		},
 	},
 	plugins: [require("tailwindcss-animate")],
