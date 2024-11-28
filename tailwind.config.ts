@@ -112,9 +112,18 @@ export default {
 					"background-position": "right center",
 				},
 			},
+			spin: {
+				from: {
+					transform: "rotate(0deg)"
+				},
+				to: {
+					transform: "rotate(360deg)"
+				}
+			}
 		},
 		animation: {
 			text: "text 5s infinite ease",
+			spin: "spin 1s linear infinite",
 		},
 	},
 	plugins: [require("tailwindcss-animate")],

@@ -11,14 +11,6 @@ type Metadata<T extends object> = {
     }
 }
 
-type ContactForm = {
-    fullName: string
-    email: string
-    subject: string
-    phone: string
-    message: string
-    read: boolean
-}
 
 type PaginationMetadata = {
     hasNextPage: boolean
