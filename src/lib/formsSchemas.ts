@@ -29,7 +29,7 @@ export const loginSchema = z.object({
     })
 })
 
-export const createAdminSchema = z.object({
+export const createModeratorSchema = z.object({
     first_name: z.string().min(3, {
         message: "Name must be at least 3 characters long"
     }).max(50, {
@@ -74,6 +74,6 @@ export const updatePasswordSchema = z.object({
 
 export type ContactSchema = z.infer<typeof contactSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;
-export type CreateAdminSchema = z.infer<typeof createAdminSchema>;
+export type CreateModeratorSchema = z.infer<typeof createModeratorSchema>;
 export type UpdateAdminSchema = z.infer<typeof updateAdminSchema>;
 export type UpdatePasswordSchema = z.infer<typeof updatePasswordSchema>;

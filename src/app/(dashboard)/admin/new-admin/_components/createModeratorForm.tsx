@@ -13,7 +13,7 @@ import { Input } from "@/_components/ui/input"
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { useState } from "react"
 import { toast } from "sonner"
-import { CreateAdminSchema, createAdminSchema } from "@/lib/formsSchemas"
+import { CreateModeratorSchema, createModeratorSchema } from "@/lib/formsSchemas"
 import {
     Select,
     SelectContent,
@@ -25,7 +25,7 @@ import SubmitButton from "@/_components/submitButton"
 import { createAdminAction } from "@/_actions/adminActions"
 import { useRouter } from "next/navigation"
 
-export default function CreateAdminForm() {
+export default function CreateModeratorForm() {
 
     const [isPending, setIsPending] = useState<boolean>(false)
     const [showPassword, setShowPassword] = useState<{
@@ -37,8 +37,8 @@ export default function CreateAdminForm() {
             confirmPassword: false,
         })
     const router = useRouter()
-    const form = useForm<CreateAdminSchema>({
-        resolver: zodResolver(createAdminSchema),
+    const form = useForm<CreateModeratorSchema>({
+        resolver: zodResolver(createModeratorSchema),
         defaultValues: {
             first_name: "",
             last_name: "",
@@ -49,10 +49,10 @@ export default function CreateAdminForm() {
         },
     })
 
-    async function createUser(data: CreateAdminSchema) {
+    async function createUser(data: CreateModeratorSchema) {
         setIsPending(true)
         try {
-            const result = await createAdminSchema.safeParseAsync(data)
+            const result = await createModeratorSchema.safeParseAsync(data)
             if (!result.success) {
                 toast("Error!", {
                     description: "Something went wrong with the form data. Please try again.",
