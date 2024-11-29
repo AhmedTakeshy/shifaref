@@ -22,7 +22,7 @@ import {
     SelectValue,
 } from "@/_components/ui/select"
 import SubmitButton from "@/_components/submitButton"
-import { createAdminAction } from "@/_actions/adminActions"
+import { createModeratorAction } from "@/_actions/adminActions"
 import { useRouter } from "next/navigation"
 
 export default function CreateModeratorForm() {
@@ -60,7 +60,7 @@ export default function CreateModeratorForm() {
                 return
             }
 
-            const res = await createAdminAction(result.data)
+            const res = await createModeratorAction(result.data)
 
             if (res?.status !== "Error") {
                 toast.success("Successfully!", {

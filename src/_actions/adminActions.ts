@@ -1,5 +1,5 @@
 "use server"
-import { CreateAdminSchema, createAdminSchema, } from "@/lib/formsSchemas";
+import { CreateModeratorSchema, createModeratorSchema, } from "@/lib/formsSchemas";
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { Contact } from "@prisma/client";
@@ -7,9 +7,9 @@ import { hash } from "bcryptjs";
 
 
 
-export async function createAdminAction(values: CreateAdminSchema): Promise<ServerResponse<null>> {
+export async function createModeratorAction(values: CreateModeratorSchema): Promise<ServerResponse<null>> {
     try {
-        const result = await createAdminSchema.safeParseAsync(values)
+        const result = await createModeratorSchema.safeParseAsync(values)
 
         if (!result.success) {
             return { status: "Error", errorMessage: "Something wrong with entered data.", statusCode: 401 }
@@ -34,7 +34,7 @@ export async function createAdminAction(values: CreateAdminSchema): Promise<Serv
             }
         })
         const { first_name: fName, last_name: lName } = user
-        revalidatePath("/dashboard/admins")
+        revalidatePath("/admin/moderators")
         return {
             status: "Success",
             successMessage: `User has been created successfully with this name ${fName} ${lName}`,
