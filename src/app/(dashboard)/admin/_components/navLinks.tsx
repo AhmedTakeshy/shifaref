@@ -3,14 +3,12 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-    MdDashboard,
-    MdSupervisedUserCircle,
-    MdAttachMoney,
-    MdAnalytics,
     MdPeople,
     MdOutlineMailOutline,
 } from "react-icons/md";
-import { BiNotepad } from "react-icons/bi";
+import { LuLayoutPanelLeft } from "react-icons/lu";
+import { FaBlog } from "react-icons/fa";
+import { FiCodesandbox } from "react-icons/fi";
 
 export default function NavLinks() {
     const pathname = usePathname();
@@ -20,54 +18,37 @@ export default function NavLinks() {
             title: "Pages",
             list: [
                 {
-                    title: "Dashboard",
-                    path: "/dashboard",
-                    icon: <MdDashboard />,
+                    title: "Admin Panel",
+                    path: "/admin",
+                    icon: <LuLayoutPanelLeft />,
                     role: "ADMIN"
                 },
                 {
-                    title: "Clients",
-                    path: "/dashboard/clients?page=1",
-                    icon: <MdSupervisedUserCircle />,
+                    title: "Products",
+                    path: "/admin/products?page=1",
+                    icon: <FiCodesandbox />,
                     role: "ADMIN"
                 },
                 {
-                    title: "Admins",
-                    path: "/dashboard/admins?page=1",
-                    icon: <MdPeople />,
-                    role: "SUPER_ADMIN",
+                    title: "Blog",
+                    path: "/admin/blog?page=1",
+                    icon: <FaBlog />,
+                    role: "ADMIN"
                 },
-            ],
-        },
-        {
-            title: "Analytics",
-            list: [
-                {
-                    title: "Transactions",
-                    path: "/dashboard/transactions?page=1",
-                    icon: <MdAttachMoney />,
-                    role: "SUPER_ADMIN",
-                },
-                {
-                    title: "Reports",
-                    path: "/dashboard/reports",
-                    icon: <MdAnalytics />,
-                    role: "SUPER_ADMIN",
-                },
+                // {
+                //     title: "Moderators",
+                //     path: "/admin/moderators?page=1",
+                //     icon: <MdPeople />,
+                //     role: "SUPER_ADMIN",
+                // },
             ],
         },
         {
             title: "User",
             list: [
                 {
-                    title: "Notes",
-                    path: "/dashboard/notes?page=1",
-                    icon: <BiNotepad className="pt-px" size={16} />,
-                    role: "ADMIN",
-                },
-                {
                     title: "Messages",
-                    path: "/dashboard/messages?page=1",
+                    path: "/admin/messages?page=1",
                     icon: <MdOutlineMailOutline className="pt-px" size={16} />,
                     role: "ADMIN",
                 },
@@ -88,7 +69,6 @@ export default function NavLinks() {
                                 tabIndex={session?.user.role === "ADMIN" && item.role === "SUPER_ADMIN" ? -1 : 0}
                                 className={` 
                                 ${session?.user.role === "ADMIN" && item.role === "SUPER_ADMIN" ? "pointer-events-none" : ""} 
-                                ${(item.title === "Reports") && "pointer-events-none"} 
                                 p-5 flex justify-start items-center gap-2.5 my-1 rounded-lg w-full dark:hover:bg-slate-700 hover:bg-slate-300 
                                 ${pathname === item.path && "dark:bg-slate-700 bg-slate-300"} h-12`}>
                                 {item.icon}
