@@ -55,7 +55,7 @@ export const createModeratorSchema = z.object({
     message: "Passwords do not match",
 });
 
-export const updateAdminSchema = z.object({
+export const updateModeratorSchema = z.object({
     id: z.number().int().positive(),
     name: z.string().min(3, { message: "Username must be at least 3 characters" }),
     email: z.string().email({ message: "Please enter a valid email address" }),
@@ -75,5 +75,5 @@ export const updatePasswordSchema = z.object({
 export type ContactSchema = z.infer<typeof contactSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;
 export type CreateModeratorSchema = z.infer<typeof createModeratorSchema>;
-export type UpdateAdminSchema = z.infer<typeof updateAdminSchema>;
+export type UpdateModeratorSchema = z.infer<typeof updateModeratorSchema>;
 export type UpdatePasswordSchema = z.infer<typeof updatePasswordSchema>;

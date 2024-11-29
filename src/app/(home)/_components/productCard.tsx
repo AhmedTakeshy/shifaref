@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { JSX, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import Link from "next/link";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi, } from "@/_components/ui/carousel";
@@ -43,7 +43,7 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
         })
     }, [api])
 
-    const ref = useRef<HTMLDivElement>(null);
+    const ref = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         function onKeyDown(event: KeyboardEvent) {
