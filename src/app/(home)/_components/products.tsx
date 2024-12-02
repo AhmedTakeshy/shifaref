@@ -1,7 +1,7 @@
 "use client"
 import Title from "@/_components/title";
 import ProductCard from "./productCard";
-import Search from "@/_components/search";
+import Search from "./search";
 import { useSearchParams } from "next/navigation";
 
 const products = [
@@ -21,7 +21,6 @@ const products = [
             '/crave/Crave_Burner_PRO7.jpg',
             '/crave/Crave_Burner_PRO8.jpg',
         ],
-        detailsUrl: '/products/nail-polish',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
         Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
         Architecto quidem tempore ipsam eveniet. Animi inventore omnis explicabo quidem dolor? Ullam ea, architecto dolorum est, aperiam vitae officiis labore quos animi, maxime quis? Ab nihil quo officia at quam.
@@ -46,7 +45,6 @@ const products = [
             '/eyevita/Eyevita-Plus-PRO9.jpg',
             '/eyevita/Eyevita-Plus-PRO10.jpg',
         ],
-        detailsUrl: '/products/lipstick',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
         Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
         Architecto quidem tempore ipsam eveniet. Animi inventore omnis explicabo quidem dolor? Ullam ea, architecto dolorum est, aperiam vitae officiis labore quos animi, maxime quis? Ab nihil quo officia at quam.
@@ -70,7 +68,6 @@ const products = [
             '/flex/Flexomore_PRO8.jpg',
             '/flex/Flexomore_PRO9.jpg',
         ],
-        detailsUrl: '/products/mascara',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
         Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
         Architecto quidem tempore ipsam eveniet. Animi inventore omnis explicabo quidem dolor? Ullam ea, architecto dolorum est, aperiam vitae officiis labore quos animi, maxime quis? Ab nihil quo officia at quam.
@@ -93,7 +90,6 @@ const products = [
             '/matcha/Matcha-Extreme-PRO7.jpg',
             '/matcha/Matcha-Extreme-PRO8.jpg',
         ],
-        detailsUrl: '/products/eyeshadow-palette',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
                     Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
                     Architecto quidem tempore ipsam eveniet. Animi inventore omnis explicabo quidem dolor? Ullam ea, architecto dolorum est, aperiam vitae officiis labore quos animi, maxime quis? Ab nihil quo officia at quam.
@@ -139,7 +135,6 @@ const products = [
             '/prostan/Prostan-Plus-PRO5.jpg',
             '/prostan/Prostan-Plus-PRO6.jpg',
         ],
-        detailsUrl: '/products/makeup-brushes',
         description: ` Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid libero quo facere laudantium assumenda veritatis sit sint itaque corrupti quidem! Ab eaque reiciendis necessitatibus, quia tenetur error! Optio, similique aspernatur.
                     Hic maiores adipisci aperiam facilis porro sed et neque quo, qui, perferendis velit laborum ab vitae nemo quibusdam in dolor praesentium fuga soluta possimus ullam iusto suscipit ipsum eius! Nobis!
                     Architecto quidem tempore ipsam eveniet. Animi inventore omnis explicabo quidem dolor? Ullam ea, architecto dolorum est, aperiam vitae officiis labore quos animi, maxime quis? Ab nihil quo officia at quam.

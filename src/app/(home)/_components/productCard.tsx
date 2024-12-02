@@ -17,12 +17,11 @@ type ProductCardProps = {
     category: string;
     imagesSrc: string[];
     checkoutUrl: string;
-    detailsUrl: string;
     description: () => JSX.Element;
 };
 
 
-export default function ProductCard({ title, imagesSrc, checkoutUrl, description, category, detailsUrl, price, id }: ProductCardProps) {
+export default function ProductCard({ title, imagesSrc, checkoutUrl, description, category, price, id }: ProductCardProps) {
     const [active, setActive] = useState<ProductCardProps | boolean | null>(
         null
     );
@@ -200,7 +199,7 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
             <motion.li
                 layoutId={`card-${title}-${id}`}
                 key={title}
-                onClick={() => setActive({ title, category, imagesSrc, checkoutUrl, description, detailsUrl, price, id })}
+                onClick={() => setActive({ title, category, imagesSrc, checkoutUrl, description, price, id })}
                 className="flex flex-col p-4 cursor-pointer hover:bg-light-green-90 dark:hover:bg-neutral-800 rounded-xl"
             >
                 <div className="flex flex-col w-full gap-4">
