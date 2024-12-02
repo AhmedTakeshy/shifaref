@@ -78,7 +78,9 @@ export default function CreateModeratorForm() {
                 description: "Something went wrong. Please try again.",
             })
         }
-        setIsPending(false)
+        finally {
+            setIsPending(false)
+        }
     }
     return (
         <Form {...form} >
