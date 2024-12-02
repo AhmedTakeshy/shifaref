@@ -11,7 +11,7 @@ export default function SimpleCard({ message }: SimpleCardProps) {
     return (
         message ? (
             <div className="grid grid-cols-[1fr,auto] justify-between items-center p-2.5 dark:hover:text-slate-900 hover:bg-slate-200 rounded-lg w-full">
-                <Link href={`/dashboard/messages`} className="flex items-center justify-start h-20 gap-2">
+                <Link href={`/admin/messages`} className="flex items-center justify-start h-20 gap-2">
                     <p className="flex flex-col justify-start h-full text-sm rounded-md">
                         {message?.fullName.split(" ")[0]}
                         <br />
