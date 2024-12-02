@@ -195,7 +195,6 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
                     </div>
                 ) : null}
             </AnimatePresence>
-            {/* <ul className="grid items-start w-full max-w-2xl grid-cols-1 gap-4 mx-auto md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-2"> */}
             <motion.li
                 layoutId={`card-${title}-${id}`}
                 key={title}
@@ -235,7 +234,6 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
                     </div>
                 </div>
             </motion.li>
-            {/* </ul> */}
         </>
     );
 }
