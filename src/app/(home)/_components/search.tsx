@@ -1,28 +1,33 @@
 "use client"
 import { MdSearch } from "react-icons/md"
-import { useRef } from "react"
+import { FormEvent, useRef } from "react"
 import { useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Button } from "@/_components/ui/button"
 import CategoryFilter from "@/app/(home)/_components/categoryFilter"
 
 export default function Search() {
+  const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const searchParams = useSearchParams()
-  const handleSearchValue = () => {
-    const value = inputRef.current?.value.trim()
 
-    const updatedQuery = new URLSearchParams(searchParams.toString())
-
+  const updateSearchQuery = (e: FormEvent) => {
+    e.preventDefault()
+    const value = inputRef.current?.value?.trim()
+    const params = new URLSearchParams(searchParams.toString())
     if (value) {
-      updatedQuery.set("q", value)
+      params.set("q", value)
     } else {
-      updatedQuery.delete("q")
+      params.delete("q")
     }
 
     const url = new URL(window.location.href)
-    url.search = updatedQuery.toString()
+    url.search = params.toString()
     window.history.pushState({}, "", url.toString())
+
+    inputRef.current?.blur()
+    router.push(url.toString())
     inputRef.current?.blur()
   }
 
@@ -42,10 +47,7 @@ export default function Search() {
   return (
     <div className="flex flex-col items-center justify-center gap-2 w-full mb-12 container">
       <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleSearchValue()
-        }}
+        onSubmit={updateSearchQuery}
         className={`flex items-center shadow-lg mx-auto w-full rounded-[10px] max-w-3xl mt-12`}
       >
         <div className="h-16 w-full bg-white rounded-[10px] justify-between flex items-center">
@@ -61,7 +63,7 @@ export default function Search() {
             size={"icon"}
             variant={"ghost"}
             className="px-8 h-full hover:bg-light-green-90"
-            onClick={handleSearchValue}
+            onClick={updateSearchQuery}
           >
             <MdSearch
               className=" text-light-green-70"
