@@ -2,8 +2,10 @@ import { Suspense } from "react";
 import Banner from "./_components/banner";
 import Features from "./_components/features";
 import Products from "./_components/products";
-import SkeletonCard from "./_components/skeletonCard";
+import SkeletonCard from "@/_components/skeletonCard";
 
+
+export const experimental_ppr = true;
 
 export default function Home() {
   return (
