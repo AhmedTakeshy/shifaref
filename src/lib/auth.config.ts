@@ -25,10 +25,9 @@ export default {
                 if (!isPasswordValid) return null;
                 return {
                     id: existingUser.id.toString(),
-                    firstName: existingUser.first_name,
-                    lastName: existingUser.last_name,
+                    name: existingUser.first_name + " " + existingUser.last_name,
                     email: existingUser.email,
-                    role: existingUser.role ?? "ADMIN",
+                    role: existingUser.role ?? "SUPER_ADMIN",
                 } as User
             },
         },

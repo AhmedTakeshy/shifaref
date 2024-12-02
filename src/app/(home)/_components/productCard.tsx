@@ -203,7 +203,6 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
             >
                 <div className="flex flex-col w-full gap-4">
                     <motion.div layoutId={`image-${title}-${id}`}>
-
                         <Image
                             width={960}
                             height={640}

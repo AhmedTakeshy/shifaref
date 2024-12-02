@@ -22,10 +22,7 @@ declare module "next-auth" {
     }
 
     interface User {
-        id?: string;
         role: string;
-        firstName?: string;
-        lastName?: string;
     }
 }
 
@@ -46,11 +43,7 @@ export const {
 
         callbacks: {
             async signIn({ user }) {
-                if (user) {
-                    user.firstName = user?.name?.split(" ")[0] ?? ""
-                    user.lastName = user?.name?.split(" ")[1] ?? ""
-                    return true
-                }
+                if (user) return true
                 return false
             },
             async jwt({ token, user, trigger, session }) {
@@ -75,7 +68,7 @@ export const {
             async session({ session, token }) {
                 if (session.user) {
                     session.user.id = token.id as string ?? session.user.id
-                    session.user.role = token.role as string ?? "USER"
+                    session.user.role = token.role as string ?? "SUPER_ADMIN"
                 }
                 return session
             },

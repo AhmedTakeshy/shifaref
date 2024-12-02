@@ -1,5 +1,6 @@
 "use server"
 
+import { CreateOrUpdateProductSchema, createOrUpdateProductSchema } from "@/lib/formsSchemas"
 import prisma from "@/lib/prisma"
 import { Product } from "@prisma/client"
 
@@ -29,8 +30,7 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
                     },
                     {
                         category: {
-                            contains: search?.category,
-                            mode: "insensitive"
+                            name: search?.category,
                         }
                     }
                 ]
@@ -50,8 +50,7 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
                     },
                     {
                         category: {
-                            contains: search?.category,
-                            mode: "insensitive"
+                            name: search?.category,
                         }
                     }
                 ]
@@ -72,5 +71,44 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
         }
     } catch {
         return { status: "Error", errorMessage: "Failed to fetch the products!", statusCode: 401 }
+    }
+}
+
+export async function createProduct(data: CreateOrUpdateProductSchema): Promise<ServerResponse<Product>> {
+    try {
+        const result = await createOrUpdateProductSchema.safeParseAsync(data)
+        if (!result.success) {
+            return { status: "Error", errorMessage: "Invalid form data!", statusCode: 401 }
+        }
+        const { title, description, price, category, images, checkoutUrl, label } = result.data
+        const product = await prisma.product.create({
+            data: {
+                title: title,
+                description: description,
+                price: price,
+                category: {
+                    connectOrCreate: {
+                        where: {
+                            name: category
+                        },
+                        create: {
+                            name: category,
+                            label
+                        }
+                    }
+                },
+                images: images,
+                checkoutUrl: checkoutUrl
+            }
+        })
+
+        return {
+            status: "Success",
+            data: product,
+            successMessage: "Product created successfully",
+            statusCode: 200
+        }
+    } catch {
+        return { status: "Error", errorMessage: "Failed to create the product!", statusCode: 401 }
     }
 }
