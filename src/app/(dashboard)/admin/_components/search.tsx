@@ -12,7 +12,7 @@ type SearchProps = {
 };
 
 export default function Search({ placeholder, option1, option2 }: SearchProps) {
-    const [searchType, setSearchType] = useState<typeof option1 | typeof option2>(option2);
+    const [searchType, setSearchType] = useState<typeof option1 | typeof option2>(option1);
     const searchParams = useSearchParams();
     const { replace } = useRouter();
     const pathname = usePathname();
@@ -26,7 +26,7 @@ export default function Search({ placeholder, option1, option2 }: SearchProps) {
             params.delete(searchType);
         }
         replace(`${pathname}?${params}`);
-    }, 100);
+    }, 300);
 
     const handleSearchClick = () => {
         params.delete(searchType);
@@ -35,7 +35,7 @@ export default function Search({ placeholder, option1, option2 }: SearchProps) {
     }
 
     return (
-        <div className={`flex items-center dark:bg-slate-700 bg-slate-300 p-2.5 w-max gap-2.5 rounded-lg h-12`}>
+        <div className={`flex items-center dark:bg-slate-800 bg-slate-200 p-2.5 w-max gap-2.5 rounded-lg h-12`}>
             <MdSearch size={20} />
             <input
                 type="text"
@@ -45,10 +45,10 @@ export default function Search({ placeholder, option1, option2 }: SearchProps) {
             />
             <Button
                 onClick={handleSearchClick}
-                className={`font-bold border ${searchType === option1 ? "dark:bg-zinc-900 bg-white" : ""}`}
+                className={`font-bold border ${searchType === option2 ? "dark:bg-zinc-600 bg-white" : ""}`}
                 variant="ghost"
             >
-                {option1}
+                {option2}
             </Button>
         </div>
     )
