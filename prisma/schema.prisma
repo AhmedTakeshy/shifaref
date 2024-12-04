@@ -42,22 +42,21 @@ model User {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  title       String
-  category    Category @relation(fields: [categoryId], references: [id], onDelete: NoAction)
-  categoryId  Int
-  description String
-  price       Float
-  images      String[]
-  checkoutUrl String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  title        String
+  category     Category @relation(fields: [categoryName], references: [name], onDelete: NoAction)
+  categoryName String
+  description  String
+  price        Float
+  images       String[]
+  checkoutUrl  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Category {
   id        Int         @id @default(autoincrement())
   name      String      @unique
-  label     Label
   type      CategoryTpe @default(DEFAULT)
   products  Product[]
   createdAt DateTime    @default(now())
@@ -67,15 +66,6 @@ model Category {
 enum CategoryTpe {
   DEFAULT
   CUSTOM
-}
-
-enum Label {
-  PERSONAL_BEAUTY
-  HEALTH_WELLNESS
-  BABY_CHILD_CARE
-  LIFE_STYLE_COMFORT
-  HOME_KITCHEN
-  BEAUTY_ACCESSORIES
 }
 
 model Blog {
