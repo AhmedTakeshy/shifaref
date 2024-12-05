@@ -47,16 +47,16 @@ export const {
                 return false
             },
             async jwt({ token, user, trigger, session }) {
-                const userDB = await prisma.user.findUnique({
-                    where: {
-                        email: token.email as string
-                    },
-                    select: {
-                        id: true,
-                        role: true,
-                    }
-                })
-                token.role = userDB?.role ?? user.role
+                // const userDB = await prisma.user.findUnique({
+                //     where: {
+                //         email: token.email as string
+                //     },
+                //     select: {
+                //         id: true,
+                //         role: true,
+                //     }
+                // })
+                // token.role = userDB?.role ?? user.role
                 if (trigger === "update") {
                     if (session.user) {
                         token.email = session.user.email
