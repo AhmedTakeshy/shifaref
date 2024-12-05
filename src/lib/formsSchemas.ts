@@ -1,7 +1,4 @@
 import * as z from "zod";
-import prisma from "./prisma";
-import { Label } from "@prisma/client";
-
 
 export const contactSchema = z.object({
     fullName: z.string().min(3, {
@@ -101,45 +98,23 @@ const categories = [
     },
 ]
 const defaultCategories = categories.flatMap((category) => category.values);
-const getDynamicCategories = async () => {
-    try {
-        const dynamicCategories = await prisma.category.findMany({
-            select: {
-                name: true
-            }
-        })
-        return dynamicCategories.map((category) => category.name);
-    } catch {
-        return [];
-    }
-}
 
-export const createOrUpdateProductSchema = z.object({
-    title: z.string().min(3, {
-        message: "Name must be at least 3 characters long"
-    }).max(50, {
-        message: "Name must be at most 50 characters long"
+const baseProductSchema = z.object({
+    title: z.string().min(3).max(50),
+    price: z.coerce.number().min(1),
+    description: z.string().min(12),
+    category: z.string().refine((value) => defaultCategories.includes(value), {
+        message: "Invalid category",
     }),
-    price: z.coerce.number().min(1.00, {
-        message: "Price must be at least 1.00"
-    }),
-    description: z.string().min(12, {
-        message: "Description must be at least 12 characters long"
-    }),
-    category: z.string().refine(async (value) => {
-        const dynamicCategories = await getDynamicCategories();
-        return defaultCategories.includes(value) || dynamicCategories?.includes(value);
-    }, {
-        message: "Category is invalid. Please select a valid category or create a new one."
-    }),
-    images: z.array(z.string().url({
-        message: "Please enter a valid image URL"
-    })),
-    checkoutUrl: z.string().url({
-        message: "Please enter a valid URL"
-    }),
-    label: z.nativeEnum(Label),
-})
+    images: z.array(z.instanceof(File)),
+    checkoutUrl: z.string().url(),
+});
+
+export const createProductSchema = baseProductSchema;
+
+export const updateProductSchema = baseProductSchema.extend({
+    oldImages: z.array(z.string()),
+});
 
 
 export type ContactSchema = z.infer<typeof contactSchema>;
@@ -147,4 +122,5 @@ export type LoginSchema = z.infer<typeof loginSchema>;
 export type CreateModeratorSchema = z.infer<typeof createModeratorSchema>;
 export type UpdateModeratorSchema = z.infer<typeof updateModeratorSchema>;
 export type UpdatePasswordSchema = z.infer<typeof updatePasswordSchema>;
-export type CreateOrUpdateProductSchema = z.infer<typeof createOrUpdateProductSchema>;
+export type CreateProductSchema = z.infer<typeof createProductSchema>;
+export type UpdateProductSchema = z.infer<typeof updateProductSchema>;

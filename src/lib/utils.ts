@@ -12,7 +12,7 @@ export const uploadImage = async (file: File): Promise<string | null> => {
   const fileName = `${Date.now()}-${file.name}`;
   const { error } = await supabase
     .storage
-    .from("products-images") // Replace with your Supabase bucket name
+    .from("products-images")
     .upload(fileName, file);
 
   if (error) {
@@ -28,3 +28,27 @@ export const uploadImage = async (file: File): Promise<string | null> => {
 
   return publicUrlData?.publicUrl || null;
 };
+
+export async function deleteImage(file: string): Promise<ServerResponse<null>> {
+  const fileName = file.split("/").pop() as string;
+  const { data, error } = await supabase
+    .storage
+    .from("products-images")
+    .remove([fileName]);
+  console.log("🚀 ~ deleteImage ~ data:", data)
+
+  if (error) {
+    console.error("Error deleting image:", error.message);
+    return {
+      status: "Error",
+      errorMessage: "Failed to delete the image!",
+      statusCode: 401
+    }
+  }
+  return {
+    status: "Success",
+    successMessage: "Image deleted successfully",
+    statusCode: 200,
+    data: null
+  }
+}
