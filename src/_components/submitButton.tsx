@@ -18,7 +18,13 @@ export default function SubmitButton({ iconClass, text, pending, ...props }: Pro
             disabled={pending}
             {...props}
         >
-            {pending ? <ImSpinner9 className={`ease-in-out animate-spin ${iconClass}`} size={25} /> : text}
+            {pending ?
+                <>
+                    <ImSpinner9 className={`ease-in-out animate-spin ${iconClass}`} size={25} />
+                    <span className="ml-2">Submitting</span>
+                </>
+                : text
+            }
         </Button>
     )
 }
