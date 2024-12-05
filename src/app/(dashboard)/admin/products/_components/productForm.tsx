@@ -1,8 +1,5 @@
-"use client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { FieldValues, Path, SubmitHandler, useFormContext, } from "react-hook-form"
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
@@ -13,161 +10,228 @@ import { Input } from "@/_components/ui/input"
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
+    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/_components/ui/select"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { toast } from "sonner"
-import { CreateOrUpdateProductSchema, createOrUpdateProductSchema } from "@/lib/formsSchemas"
-import { useRouter } from "next/navigation"
 import { Textarea } from "@/_components/ui/textarea"
-import { $Enums } from "@prisma/client"
 import SubmitButton from "@/_components/submitButton"
-export default function ProductForm() {
-    const [isPending, setIsPending] = useState<boolean>(false)
-    const router = useRouter()
-    const form = useForm<CreateOrUpdateProductSchema>({
-        resolver: zodResolver(createOrUpdateProductSchema),
-        defaultValues: {
-            title: "",
-            description: "",
-            price: 0.00,
-            category: "",
-            images: [],
-            checkoutUrl: "",
-        },
-    })
+import FileUpload from "./fileUpload"
+import { Button } from "@/_components/ui/button"
 
-    async function createProduct(data: CreateOrUpdateProductSchema) {
-        setIsPending(true)
-        try {
-            const result = await createOrUpdateProductSchema.safeParseAsync(data)
-            if (!result.success) {
-                toast("Error!", {
-                    description: "Something went wrong with the form data. Please try again.",
-                })
-                return
-            }
-            console.log("🚀 ~ createProduct ~ result:", result.data)
-            // await createProductAction(data)
-            // router.push("/admin/products")
-        } catch {
-            toast("Error!", {
-                description: "Something went wrong. Please try again.",
-            })
-        } finally {
-            setIsPending(false)
+
+
+
+const initialCategories = [
+    {
+        label: 'Personal Care',
+        values: ["Perfumes & Aftershave", "Makeup (lipstick, mascara, foundation, eyeshadow)", "Cosmetics (deodorant, body spray, creams, serums)", "Skincare (Anti-aging, anti-wrinkle, face care creams, foams, masks)", "Aloe Vera Gel", "Mouth Hygiene (mouthwash, dental hygiene kit)", "Body & Intimate Care (body beauty, wellness, creams, gels)", "Hair Care (shampoos, conditioners)"]
+    },
+    {
+        label: 'Health & Wellness',
+        values: ["Supplements (food & beverages, vitamin C & A serum)", "Lactic Acid Skin Peel (for acne, age spots)", "Mental & Physical Fitness (health products)"]
+    },
+    {
+        label: "Baby & Child Care",
+        values: ["Baby & child care products"]
+    },
+    {
+        label: "Lifestyle & Comfort",
+        values: ["Comfort Items", "Hobby & Lifestyle Products", "Portable Blenders (battery powered)"]
+    },
+    {
+        label: "Home & Kitchen",
+        values: ["Kitchen Appliances"]
+    },
+    {
+        label: "Beauty Accessories",
+        values: ["Beauty Products & Accessories"]
+    },
+]
+
+type ProductFormProps<T extends FieldValues> = {
+    mode: "create" | "update";
+    isPending: boolean
+    onSubmit: SubmitHandler<T>;
+}
+export default function ProductForm<T extends FieldValues>({ mode, isPending, onSubmit }: ProductFormProps<T>) {
+    const { control, handleSubmit } = useFormContext<T>()
+    const categoryInputRef = useRef<HTMLInputElement>(null)
+    const [categories, setCategories] = useState<{ label: string, values: string[] }[]>(initialCategories)
+
+    const addCategory = () => {
+        if (!categoryInputRef.current?.value.trim()) {
+            toast.error("Category name cannot be empty.");
+            return;
         }
-    }
+        if (categories.some((cat) => cat.values.includes(categoryInputRef.current?.value ?? ""))) {
+            toast.error("This category already exists.");
+            return;
+        }
+        setCategories((prev) => [
+            ...prev,
+            { label: "Custom", values: [categoryInputRef.current?.value ?? ""] },
+        ]);
+        categoryInputRef.current.value = "";
+        toast.success("Category added successfully.");
+    };
+
 
     return (
-        <Form {...form}>
-            <div className="w-full p-4 mb-4 space-y-2 border-2 rounded-md max-sm:max-w-xs border-slate-800 dark:border-slate-400">
-                <form
-                    onSubmit={form.handleSubmit(createProduct)}
-                    className="space-y-2"
-                >
-                    <div className="flex flex-col sm:flex-row justify-between">
-                        <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Title</FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Crave Burner" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="price"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Price</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" {...field} min={1} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+        <div className="w-full p-4 mb-4 space-y-2 rounded-md max-sm:max-w-xs dark:bg-slate-800 bg-slate-200">
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="space-y-2"
+            >
+                <div className="flex flex-col sm:flex-row justify-between gap-8">
                     <FormField
-                        control={form.control}
-                        name="description"
+                        control={control}
+                        name={"title" as Path<T>}
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Description</FormLabel>
+                            <FormItem className="w-full">
+                                <FormLabel className="dark:text-white">Title</FormLabel>
                                 <FormControl>
-                                    <Textarea placeholder="A new weight loss supplement" {...field} />
+                                    <Input
+                                        className="bg-white dark:bg-slate-200 focus:ring-0 border-none"
+                                        type="text"
+                                        placeholder="Crave Burner"
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <div className="flex flex-col sm:flex-row justify-between">
-                        <FormField
-                            control={form.control}
-                            name="label"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            name={field.name}
-                                        >
-                                            <SelectTrigger className="w-[200px]">
-                                                <SelectValue placeholder="Select a main category" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {Object.keys($Enums.Label).map((category) => (
-                                                    <SelectItem key={category} value={category} className=" capitalize">
-                                                        {category}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                    <FormField
+                        control={control}
+                        name={"price" as Path<T>}
+                        render={({ field }) => (
+                            <FormItem className="w-full">
+                                <FormLabel className="dark:text-white">Price</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="bg-white dark:bg-slate-200 focus:ring-0 border-none"
+                                        type="float"
+                                        min={1}
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <FormField
+                    control={control}
+                    name={"description" as Path<T>}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="dark:text-white">Description</FormLabel>
+                            <FormControl>
+                                <Textarea
+                                    placeholder="A new weight loss supplement"
+                                    className="bg-white dark:bg-slate-200 focus:ring-0 border-none"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={control}
+                    name={"checkoutUrl" as Path<T>}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="dark:text-white">Checkout URL</FormLabel>
+                            <FormControl>
+                                <Input
+                                    type="text"
+                                    placeholder="https://example.com"
+                                    className="bg-white dark:bg-slate-200 focus:ring-0 border-none"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <div className="flex flex-col justify-between my-2 w-full gap-5">
+                    <FormField
+                        control={control}
+                        name={"category" as Path<T>}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="dark:text-white">Category</FormLabel>
+                                <FormControl>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        name={field.name}
+                                        value={field.value}
+                                    >
+                                        <SelectTrigger className="w-60 bg-white dark:bg-slate-200">
+                                            <SelectValue placeholder="Select a category" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {categories.map((group, idx) => (
+                                                <SelectGroup key={idx}>
+                                                    <SelectLabel className="font-semibold dark:text-white text-black">{group.label}</SelectLabel>
+                                                    {group.values.map((value) => (
+                                                        <SelectItem key={value} value={value}>
+                                                            {value}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <div className="flex items-center gap-4">
+                        <Input
+                            ref={categoryInputRef}
+                            placeholder="New Category"
+                            className="bg-white dark:bg-slate-200 focus:ring-0 border-none"
+                            type="text"
                         />
-                        <FormField
-                            control={form.control}
-                            name="category"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            name={field.name}
-                                        >
-                                            <SelectTrigger className="w-[180px]">
-                                                <SelectValue placeholder="Select a category" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {Object.keys($Enums.Label).map((category) => (
-                                                    <SelectItem key={category} value={category} className=" capitalize">
-                                                        {category}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        <Button
+                            onClick={addCategory}
+                            type="button"
+                            className="dark:bg-black hover:!bg-zinc-700"
+                            variant={"secondary"}
+                        >
+                            Add Category
+                        </Button>
                     </div>
-                    <SubmitButton pending={isPending} text="Create product" />
-                </form>
-            </div>
-        </Form>
+                </div>
+                <FormField
+                    control={control}
+                    name={"images" as Path<T>}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <FileUpload
+                                    onChange={(files) => field.onChange(files)}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <SubmitButton
+                    pending={isPending}
+                    text={`${mode === "update" ? "Update product" : "Create product"}`}
+                    variant={"secondary"}
+                    className="dark:bg-black hover:!bg-zinc-700"
+                />
+            </form>
+        </div>
     )
 }

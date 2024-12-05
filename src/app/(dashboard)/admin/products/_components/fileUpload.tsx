@@ -1,9 +1,8 @@
-import { cn, uploadImage } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { useDropzone } from "react-dropzone";
-import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 const mainVariant = {
     initial: {
@@ -27,22 +26,21 @@ const secondaryVariant = {
 };
 
 type FileUploadProps = {
-    // onChange: (files: File[]) => void;
-    field: ControllerRenderProps<FieldValues, string>;
+    onChange: (files: File[]) => void;
+
 }
-export default function FileUpload({ field }: FileUploadProps) {
-    const [files, setFiles] = useState<File[]>([]);
+export default function FileUpload({ onChange }: FileUploadProps) {
+    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = async (newFiles: File[]) => {
-        if (!files) return;
-        setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+        if (!newFiles) return;
+        setUploadedFiles((prevFiles) => [
+            ...prevFiles,
+            ...newFiles.filter((file) => !prevFiles.some((f) => f.name === file.name)),
+        ]);
 
-        const uploadedUrls = [];
-        for (const file of Array.from(files)) {
-            const imageUrl = await uploadImage(file);
-            if (imageUrl) uploadedUrls.push(imageUrl);
-        }
+        onChange(newFiles);
     };
 
     const handleClick = () => {
@@ -50,7 +48,7 @@ export default function FileUpload({ field }: FileUploadProps) {
     };
 
     const { getRootProps, isDragActive } = useDropzone({
-        multiple: false,
+        multiple: true,
         noClick: true,
         onDrop: handleFileChange,
         onDropRejected: (error) => {
@@ -70,7 +68,8 @@ export default function FileUpload({ field }: FileUploadProps) {
                     id="file-upload-handle"
                     type="file"
                     multiple
-                    onChange={(e) => { handleFileChange(e.target.files ? Array.from(e.target.files) : []); field.onChange(e); }}
+                    name="images"
+                    onChange={(e) => { handleFileChange(e.target.files ? Array.from(e.target.files) : []) }}
                     className="hidden"
                 />
                 <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
@@ -84,8 +83,8 @@ export default function FileUpload({ field }: FileUploadProps) {
                         Drag or drop your files here or click to upload
                     </p>
                     <div className="relative w-full mt-10 max-w-xl mx-auto">
-                        {files.length > 0 &&
-                            files.map((file, idx) => (
+                        {uploadedFiles.length > 0 &&
+                            uploadedFiles.map((file, idx) => (
                                 <motion.div
                                     key={"file" + idx}
                                     layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
@@ -134,7 +133,7 @@ export default function FileUpload({ field }: FileUploadProps) {
                                     </div>
                                 </motion.div>
                             ))}
-                        {!files.length && (
+                        {!uploadedFiles.length && (
                             <motion.div
                                 layoutId="file-upload"
                                 variants={mainVariant}
@@ -163,7 +162,7 @@ export default function FileUpload({ field }: FileUploadProps) {
                             </motion.div>
                         )}
 
-                        {!files.length && (
+                        {!uploadedFiles.length && (
                             <motion.div
                                 variants={secondaryVariant}
                                 className="absolute opacity-0 border border-dashed border-sky-400 inset-0 z-30 bg-transparent flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md"
