@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-    MdPeople,
+    // MdPeople,
     MdOutlineMailOutline,
 } from "react-icons/md";
 import { LuLayoutPanelLeft } from "react-icons/lu";
