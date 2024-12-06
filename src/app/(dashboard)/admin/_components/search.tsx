@@ -35,7 +35,7 @@ export default function Search({ placeholder, option1, option2 }: SearchProps) {
     }
 
     return (
-        <div className={`flex items-center dark:bg-slate-800 bg-slate-200 p-2.5 w-max gap-2.5 rounded-lg h-12`}>
+        <div className={`flex items-center dark:bg-slate-700 bg-slate-300 p-2.5 w-max gap-2.5 rounded-lg h-12`}>
             <MdSearch size={20} />
             <input
                 type="text"

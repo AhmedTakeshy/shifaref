@@ -14,17 +14,12 @@ type PaginationControlProps = {
   className?: string
 }
 
-export default function PaginationControl({
-  currentPage,
-  metadata,
-  className,
-}: PaginationControlProps) {
+export default function PaginationControl({ currentPage, metadata, className, }: PaginationControlProps) {
   const { totalPages, hasNextPage } = metadata
   const hasPreviousPage = currentPage > 1
   const searchParams = useSearchParams()
 
   const createPageLink = (page: number) => ({
-    hash: "protests",
     query: {
       ...Object.fromEntries(searchParams),
       page,
@@ -34,7 +29,7 @@ export default function PaginationControl({
   return (
     <div
       className={cn(
-        "flex items-center justify-center gap-1 mx-auto px-2.5 mt-12 max-w-full",
+        "flex items-center justify-center gap-1 mx-auto px-2.5 mt-12 max-w-full ",
         className,
       )}
     >
@@ -46,7 +41,7 @@ export default function PaginationControl({
       <Button
         asChild={hasPreviousPage}
         variant="ghost"
-        className={`rounded-md text-base`}
+        className={`rounded-md text-base dark:hover:bg-slate-600`}
         disabled={!hasPreviousPage}
       >
         <Link
@@ -62,7 +57,7 @@ export default function PaginationControl({
       <Button
         asChild={hasNextPage}
         variant="ghost"
-        className={`rounded-md text-base`}
+        className={`rounded-md text-base dark:hover:bg-slate-600`}
         disabled={!hasNextPage}
       >
         <Link
