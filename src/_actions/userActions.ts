@@ -1,6 +1,6 @@
 "use server"
 import { ContactSchema, contactSchema, } from "@/lib/formsSchemas";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import prisma from "@/lib/prisma";
 
 
@@ -33,7 +33,7 @@ export async function contactFormAction(values: ContactSchema): Promise<ServerRe
                 errorMessage: "Internal Server Error message not sent!",
             }
         }
-        revalidatePath("/admin")
+        revalidateTag("messages")
         return {
             statusCode: 200,
             status: "Success",

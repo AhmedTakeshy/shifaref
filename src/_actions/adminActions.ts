@@ -1,6 +1,6 @@
 "use server"
 import { CreateModeratorSchema, createModeratorSchema, } from "@/lib/formsSchemas";
-import { revalidatePath } from "next/cache";
+import { revalidateTag, unstable_cacheTag as cacheTag } from "next/cache";
 import prisma from "@/lib/prisma";
 import { Contact } from "@prisma/client";
 import { hash } from "bcryptjs";
@@ -34,7 +34,7 @@ export async function createModeratorAction(values: CreateModeratorSchema): Prom
             }
         })
         const { first_name: fName, last_name: lName } = user
-        revalidatePath("/admin/moderators")
+        revalidateTag("get-moderators")
         return {
             status: "Success",
             successMessage: `User has been created successfully with this name ${fName} ${lName}`,
@@ -54,11 +54,13 @@ type MessagesProps = {
     page?: string
     search?: {
         email?: string,
-        phone?: string,
+        name?: string,
     }
     read: boolean
 }
 export async function getMessages({ page, search, read }: MessagesProps): Promise<ServerResponse<MessagesMetadata>> {
+    "use cache"
+    cacheTag("get-messages")
     const pageNumber = page ? Number(page) : 1
     try {
         const messages = await prisma.contact.findMany({
@@ -71,8 +73,9 @@ export async function getMessages({ page, search, read }: MessagesProps): Promis
                         },
                     },
                     {
-                        phone: {
-                            contains: search?.phone,
+                        fullName: {
+                            contains: search?.name,
+                            mode: "insensitive"
                         }
                     },
                     { read }
@@ -111,8 +114,8 @@ export async function getMessages({ page, search, read }: MessagesProps): Promis
                         },
                     },
                     {
-                        phone: {
-                            contains: search?.phone,
+                        fullName: {
+                            contains: search?.name,
                         }
                     },
                     { read }
@@ -157,6 +160,7 @@ export async function readMessage(id: number): Promise<ServerResponse<null>> {
                 errorMessage: "Message not found!",
             }
         }
+        revalidateTag("get-messages")
         return {
             statusCode: 200,
             status: "Success",

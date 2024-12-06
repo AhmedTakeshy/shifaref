@@ -41,7 +41,10 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
         if (search?.category) {
             whereCondition.OR?.push({
                 category: {
-                    name: search.category,
+                    name: {
+                        contains: search?.category,
+                        mode: "insensitive"
+                    }
                 }
             });
         }
@@ -63,7 +66,10 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
                     },
                     {
                         category: {
-                            name: search?.category,
+                            name: {
+                                contains: search?.category,
+                                mode: "insensitive"
+                            }
                         }
                     }
                 ]
