@@ -1,15 +1,38 @@
+"use client"
+import { readMessage } from '@/_actions/adminActions'
+import SubmitButton from '@/_components/submitButton'
 import { Contact } from '@prisma/client'
 import Link from 'next/link'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 type ClientMessageProps = {
     messages: Contact[]
 }
 export default function MessageCard({ messages }: ClientMessageProps) {
+    const [isPending, setIsPending] = useState(false)
+
+
+    async function handleMarkAsRead(id: number) {
+        setIsPending(true)
+        try {
+            const res = await readMessage(id)
+            if (res.status === 'Success') {
+                toast.success("Success", { description: "Message marked as read" })
+            } else {
+                toast.error("Error", { description: "Error marking message as read" })
+            }
+        } catch {
+            toast.error('Error', { description: 'Something went wrong!' })
+        } finally {
+            setIsPending(false)
+        }
+    }
 
     return (
         <div className='grid items-center gap-2.5 mt-2.5 lg:grid-cols-2'>
             {messages.map(message => (
-                <div key={message.id} className="max-w-lg p-2.5 rounded-3xl bg-gradient-to-b from-blue-300 to-red-300 dark:from-blue-800 dark:to-purple-800 ">
+                <div key={message.id} className={`max-w-lg p-2.5 rounded-3xl  from-blue-300 to-red-300 dark:from-blue-800 dark:to-purple-800 ${message.read ? "bg-gradient-to-b" : "bg-slate-950/30"}`}>
                     <div className="rounded-[calc(1.5rem-.5rem)] p-6 bg-slate-200 dark:bg-slate-800">
                         <div className="flex flex-col items-start gap-2.5">
                             <h3 className="text-lg font-medium text-slate-700 dark:text-slate-200">
@@ -27,6 +50,15 @@ export default function MessageCard({ messages }: ClientMessageProps) {
                             <span className="text-sm tracking-wide text-slate-600 dark:text-slate-400">
                                 <b>Date - Time: </b> {new Date(message.createdAt).toLocaleString()}
                             </span>
+                            <SubmitButton
+                                className="self-end"
+                                text={message.read ? "Already read" : "Mark as read"}
+                                pending={isPending}
+                                onClick={() => handleMarkAsRead(message.id)}
+                                disabled={message.read}
+                            />
+
+
                         </div>
                     </div>
                 </div>

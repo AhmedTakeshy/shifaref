@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${urbanist.className} antialiased`}
+        className={`${urbanist.className} antialiased dark:bg-slate-900`}
       >
         <Toaster richColors />
         {children}
