@@ -117,6 +117,26 @@ export const updateProductSchema = baseProductSchema.extend({
 });
 
 
+const baseBlogPostSchema = z.object({
+    title: z.string().min(3, {
+        message: "Title must be at least 3 characters long"
+    }).max(100, {
+        message: "Title must be at most 100 characters long"
+    }),
+    content: z.string().min(20, {
+        message: "Content must be at least 20 characters long"
+    }),
+    image: z.instanceof(File).optional(),
+    tags: z.array(z.string()).optional(),
+    published: z.boolean(),
+})
+export const createBlogPostSchema = baseBlogPostSchema;
+
+export const updateBlogPostSchema = baseBlogPostSchema.extend({
+    oldImage: z.string().optional(),
+})
+
+
 export type ContactSchema = z.infer<typeof contactSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;
 export type CreateModeratorSchema = z.infer<typeof createModeratorSchema>;
@@ -124,3 +144,5 @@ export type UpdateModeratorSchema = z.infer<typeof updateModeratorSchema>;
 export type UpdatePasswordSchema = z.infer<typeof updatePasswordSchema>;
 export type CreateProductSchema = z.infer<typeof createProductSchema>;
 export type UpdateProductSchema = z.infer<typeof updateProductSchema>;
+export type CreateBlogPostSchema = z.infer<typeof createBlogPostSchema>;
+export type UpdateBlogPostSchema = z.infer<typeof updateBlogPostSchema>;
