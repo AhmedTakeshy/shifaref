@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ProductCard({ title, description, price, categoryName, images, checkoutUrl, id }: Product) {
     return (
-        <li className='p-4 rounded-xl dark:bg-slate-800 bg-slate-200'>
+        <li className='p-4 rounded-xl dark:bg-slate-900 bg-slate-100'>
             <div>
                 <Image
                     width={960}
