@@ -21,7 +21,8 @@ import { toast } from "sonner"
 import { Textarea } from "@/_components/ui/textarea"
 import SubmitButton from "@/_components/submitButton"
 import FileUpload from "./fileUpload"
-import { Button } from "@/_components/ui/button"
+import { Button, buttonVariants } from "@/_components/ui/button"
+import Link from "next/link"
 
 
 
@@ -225,12 +226,17 @@ export default function ProductForm<T extends FieldValues>({ mode, isPending, on
                         </FormItem>
                     )}
                 />
-                <SubmitButton
-                    pending={isPending}
-                    text={`${mode === "update" ? "Update product" : "Create product"}`}
-                    variant={"secondary"}
-                    className="dark:bg-black hover:!bg-zinc-700"
-                />
+                <div className="flex flex-col sm:flex-row justify-canter my-2 w-full gap-5">
+                    <SubmitButton
+                        pending={isPending}
+                        text={`${mode === "update" ? "Update product" : "Create product"}`}
+                        variant={"secondary"}
+                        className="dark:bg-black hover:!bg-zinc-700"
+                    />
+                    <Link href="/admin/products?page=1" className={buttonVariants({ variant: "destructive" })}>
+                        Cancel
+                    </Link>
+                </div>
             </form>
         </div>
     )
