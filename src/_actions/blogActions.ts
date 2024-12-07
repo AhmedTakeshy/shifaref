@@ -1,7 +1,7 @@
 "use server"
 import { revalidateTag, unstable_cacheTag as cacheTag } from "next/cache";
 import prisma from "@/lib/prisma";
-import { Blog, Tag } from "@prisma/client";
+import { Blog, Prisma, Tag } from "@prisma/client";
 import { createBlogPostSchema, CreateBlogPostSchema } from "@/lib/formsSchemas";
 
 
@@ -18,11 +18,11 @@ export async function createBlogPostAction(values: CreateBlogPostSchema, userId:
             data: {
                 title,
                 content,
-                tags: {
+                tags: tags ? {
                     create: tags?.trim().split(",").map((tag) => ({
                         name: tag
                     }))
-                },
+                } : undefined,
                 published,
                 user: {
                     connect: { id: userId }
@@ -58,27 +58,34 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
     "use cache"
     cacheTag("get-blog-posts")
     const pageNumber = page ? Number(page) : 1
+    const whereCondition: Prisma.BlogWhereInput = {
+        OR: [] as Prisma.BlogWhereInput['OR']
+    };
     try {
+        if (search?.title) {
+            whereCondition.OR?.push({
+                title: {
+                    contains: search.title,
+                    mode: "insensitive"
+                }
+            });
+        }
+
+        if (search?.content) {
+            whereCondition.OR?.push({
+                content: {
+                    contains: search?.content,
+                    mode: "insensitive"
+                }
+            });
+        }
+        if (search?.published) {
+            whereCondition.OR?.push({
+                published: search?.published
+            });
+        }
         const blogPosts = await prisma.blog.findMany({
-            where: {
-                OR: [
-                    {
-                        title: {
-                            contains: search?.title,
-                            mode: "insensitive"
-                        },
-                    },
-                    {
-                        content: {
-                            contains: search?.content,
-                            mode: "insensitive"
-                        }
-                    },
-                    {
-                        published: search?.published
-                    }
-                ]
-            },
+            where: whereCondition.OR && whereCondition.OR.length > 0 ? whereCondition : {},
             select: {
                 id: true,
                 title: true,
@@ -100,6 +107,7 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
             skip: (pageNumber - 1) * 8,
             take: 8,
         })
+        console.log("🚀 ~ getBlogPosts ~ blogPosts:", blogPosts)
         if (!blogPosts) {
             return {
                 statusCode: 404,
