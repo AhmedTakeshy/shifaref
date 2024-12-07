@@ -30,8 +30,8 @@ export default function NavLinks() {
                     role: "ADMIN"
                 },
                 {
-                    title: "Blog",
-                    path: "/admin/blog?page=1",
+                    title: "Blogs",
+                    path: "/admin/blogs?page=1",
                     icon: <FaBlog />,
                     role: "ADMIN"
                 },
