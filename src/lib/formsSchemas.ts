@@ -127,7 +127,7 @@ const baseBlogPostSchema = z.object({
         message: "Content must be at least 20 characters long"
     }),
     image: z.instanceof(File).optional(),
-    tags: z.array(z.string()).optional(),
+    tags: z.string().optional(),
     published: z.boolean(),
 })
 export const createBlogPostSchema = baseBlogPostSchema;
