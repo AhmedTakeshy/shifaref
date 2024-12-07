@@ -47,17 +47,18 @@ export const {
                 if (user) return true
                 return false
             },
-            async jwt({ token, user, trigger, session }) {
-                const userDB = await prisma.user.findUnique({
-                    where: {
-                        email: token.email as string
-                    },
-                    select: {
-                        id: true,
-                        role: true,
-                    }
-                })
-                token.role = userDB?.role ?? user.role
+            async jwt({ token, trigger, session }) {
+                // const userDB = await prisma.user.findUnique({
+                //     where: {
+                //         email: token.email as string
+                //     },
+                //     select: {
+                //         id: true,
+                //         role: true,
+                //     }
+                // })
+                // token.role = userDB?.role ?? user.role
+                // token.id = userDB?.id ?? user.id
                 if (trigger === "update") {
                     if (session.user) {
                         token.email = session.user.email
@@ -68,7 +69,7 @@ export const {
             },
             async session({ session, token }) {
                 if (session.user) {
-                    session.user.id = token.id as string ?? session.user.id
+                    session.user.id = token.sub as string ?? session.user.id
                     session.user.role = token.role as string ?? "SUPER_ADMIN"
                 }
                 return session

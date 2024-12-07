@@ -5,7 +5,7 @@ import { MdLogout } from "react-icons/md";
 export default function SignOut() {
 
     async function handleSignOut() {
-        await signOut({ callbackUrl: `/signin` })
+        await signOut({ callbackUrl: `/login` })
     }
     return (
         <Button

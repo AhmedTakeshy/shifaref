@@ -22,6 +22,7 @@ export default {
                 if (!existingUser) return null;
 
                 const isPasswordValid = await bcrypt.compare(password.toString(), existingUser?.password as string)
+                console.log("🚀 ~ authorize ~ existingUser:", existingUser)
                 if (!isPasswordValid) return null;
                 return {
                     id: existingUser.id.toString(),
