@@ -13,15 +13,15 @@ import Fade from "embla-carousel-fade"
 type ProductCardProps = {
     id: number;
     title: string;
-    price: string;
-    category: string;
-    imagesSrc: string[];
+    price: number;
+    categoryName: string;
+    images: string[];
     checkoutUrl: string;
     description: () => JSX.Element;
 };
 
 
-export default function ProductCard({ title, imagesSrc, checkoutUrl, description, category, price, id }: ProductCardProps) {
+export default function ProductCard({ title, images, checkoutUrl, description, categoryName, price, id }: ProductCardProps) {
     const [active, setActive] = useState<ProductCardProps | boolean | null>(
         null
     );
@@ -110,7 +110,7 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
                                     setApi={setApi}
                                 >
                                     <CarouselContent>
-                                        {active.imagesSrc.map((src) => (
+                                        {active.images.map((src) => (
                                             <CarouselItem key={src}>
                                                 <Image
                                                     priority
@@ -149,10 +149,10 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
                                             {active.title}
                                         </motion.h3>
                                         <motion.p
-                                            layoutId={`category-${active.category}-${id}`}
+                                            layoutId={`category-${active.categoryName}-${id}`}
                                             className="text-sm text-dark-green-20 dark:text-neutral-400"
                                         >
-                                            {active.category}
+                                            {active.categoryName}
                                         </motion.p>
                                         <motion.p
                                             layoutId={`category-${active.price}-${id}`}
@@ -198,7 +198,7 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
             <motion.li
                 layoutId={`card-${title}-${id}`}
                 key={title}
-                onClick={() => setActive({ title, category, imagesSrc, checkoutUrl, description, price, id })}
+                onClick={() => setActive({ title, categoryName, images, checkoutUrl, description, price, id })}
                 className="flex flex-col p-4 cursor-pointer hover:bg-light-green-90 dark:hover:bg-neutral-800 rounded-xl"
             >
                 <div className="flex flex-col w-full gap-4">
@@ -206,7 +206,7 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
                         <Image
                             width={960}
                             height={640}
-                            src={imagesSrc[0]}
+                            src={images[0]}
                             alt={title}
                             className="object-cover object-top w-full rounded-lg h-60"
                         />
@@ -219,10 +219,10 @@ export default function ProductCard({ title, imagesSrc, checkoutUrl, description
                             {title}
                         </motion.h3>
                         <motion.p
-                            layoutId={`category-${category}-${id}`}
+                            layoutId={`category-${categoryName}-${id}`}
                             className="text-sm text-center text-dark-green-20 dark:text-neutral-400 md:text-left"
                         >
-                            {category}
+                            {categoryName}
                         </motion.p>
                         <motion.p
                             layoutId={`category-${price}-${id}`}

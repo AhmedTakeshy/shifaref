@@ -3,11 +3,19 @@ import Banner from "./_components/banner";
 import Features from "./_components/features";
 import Products from "./_components/products";
 import SkeletonCard from "@/_components/skeletonCard";
+import { getProducts } from "@/_actions/productActions";
+import PaginationControl from "@/_components/paginationControl";
 
-
+type Props = {
+  searchParams: Promise<{ [key: string]: string | undefined }>
+}
 export const experimental_ppr = true;
-
-export default function Home() {
+export default async function Home({ searchParams }: Props) {
+  const { category, title, page } = await searchParams;
+  const res = await getProducts({
+    search: { category, title },
+    page: page ? page : "1",
+  });
   return (
     <main className="flex flex-col min-h-screen">
       <Banner />
@@ -19,7 +27,15 @@ export default function Home() {
           ))}
         </ul>
       }>
-        <Products />
+        {res.status === "Success" && res.data.products.length > 0 && (
+          <>
+            <Products products={res.data.products} />
+            <PaginationControl
+              currentPage={page ? parseInt(page) : 1}
+              metadata={res.data.metadata}
+            />
+          </>
+        )}
       </Suspense>
     </main>
   );
