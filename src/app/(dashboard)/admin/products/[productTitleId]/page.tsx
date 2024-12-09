@@ -1,5 +1,19 @@
 import { getProductById } from '@/_actions/productActions'
 import UpdateProduct from './_component/updateProduct'
+import prisma from '@/lib/prisma'
+
+export async function generateStaticParams() {
+    const response = await prisma.product.findMany({
+        select: {
+            id: true,
+            title: true,
+        },
+    })
+
+    return response.map((product) => ({
+        productTitleId: `${product.title.replace(" ", "-")}-${product.id}`,
+    }))
+}
 
 type PageProps = {
     params: Promise<{ [key: string]: string | undefined }>

@@ -2,22 +2,7 @@ import { getProducts } from "@/_actions/productActions"
 import Search from "../_components/search"
 import ProductCard from "./_components/productCard"
 import Link from "next/link"
-import prisma from "@/lib/prisma"
 import PaginationControl from "@/_components/paginationControl"
-
-
-export async function generateStaticParams() {
-    const response = await prisma.product.findMany({
-        select: {
-            id: true,
-            title: true,
-        },
-    })
-
-    return response.map((product) => ({
-        productTitleId: `${product.title.replace(" ", "-")}-${product.id}`,
-    }))
-}
 
 type Props = {
     searchParams: Promise<{ [key: string]: string | undefined }>
