@@ -10,8 +10,8 @@ type Props = {
 }
 
 export default async function page({ searchParams }: Props) {
-    const { page, title, published, content } = await searchParams
-    const response = await getBlogPosts({ page, search: { title, published: Boolean(published), content } })
+    const { page, title, published, tag } = await searchParams
+    const response = await getBlogPosts({ page, search: { title, published: Boolean(published), tag } })
     return (
         <div className="flex flex-col gap-10 dark:bg-slate-800 bg-slate-200 p-5 rounded-xl mt-5 ">
             <div className="flex items-center justify-between my-5">

@@ -42,15 +42,17 @@ export async function createBlogPostAction(values: CreateBlogPostSchema, userId:
     }
 }
 
+
+export type BlogWithTags = Blog & { tags: Tag[] }
 type BlogPostsMetadata = {
-    blogPosts: Blog[],
+    blogPosts: BlogWithTags[],
     metadata: PaginationMetadata
 }
 type BlogPostsProps = {
     page?: string
     search?: {
         title?: string,
-        content?: string,
+        tag?: string,
         published?: boolean
     }
 }
@@ -71,11 +73,10 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
             });
         }
 
-        if (search?.content) {
+        if (search?.tag) {
             whereCondition.OR?.push({
-                content: {
-                    contains: search?.content,
-                    mode: "insensitive"
+                tags: {
+                    some: { name: { contains: search.tag } },
                 }
             });
         }
@@ -107,7 +108,6 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
             skip: (pageNumber - 1) * 8,
             take: 8,
         })
-        console.log("🚀 ~ getBlogPosts ~ blogPosts:", blogPosts)
         if (!blogPosts) {
             return {
                 statusCode: 404,
@@ -125,9 +125,8 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
                         },
                     },
                     {
-                        content: {
-                            contains: search?.content,
-                            mode: "insensitive"
+                        tags: {
+                            some: { name: { contains: search?.tag } },
                         }
                     },
                     {
@@ -141,7 +140,7 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
             status: "Success",
             successMessage: "Blog posts fetched successfully",
             data: {
-                blogPosts,
+                blogPosts: blogPosts as BlogWithTags[],
                 metadata: {
                     hasNextPage: totalBlogPosts > pageNumber * 8,
                     totalPages: Math.ceil(totalBlogPosts / 8),
@@ -157,7 +156,6 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
     }
 }
 
-export type BlogWithTags = Blog & { tags: Tag[] }
 export async function getBlogPostById(id: number): Promise<ServerResponse<BlogWithTags>> {
     try {
         const blogPost = await prisma.blog.findUnique({
