@@ -6,8 +6,8 @@ import Link from 'next/link'
 import ContactForm from './_components/contactForm'
 export default function Contact() {
     return (
-        <section id='contact' className='container'>
-            <div className=' flex flex-col items-center my-12'>
+        <main className='container'>
+            <section id='contact' className=' flex flex-col items-center my-12'>
                 <div className='border border-light-green-85 bg-light-green-95 xl:p-24 lg:p-20 sm:p-12 p-7 rounded-t-xl'>
                     <Image src={newLogo} width={80} height={100} alt="logo" priority className='mx-auto' />
                     <Title
@@ -30,11 +30,11 @@ export default function Contact() {
                         </Link>
                     </article>
                 </div>
-            </div>
-            <div className='sm:flex-row flex-col lg:p-20 sm:p-12 p-7 xl:p-20 border border-light-green-85 bg-light-green-95 rounded-xl flex items-start gap-[50px]'>
+            </section>
+            <section className='sm:flex-row flex-col lg:p-20 sm:p-12 p-7 xl:p-20 border border-light-green-85 bg-light-green-95 rounded-xl flex items-start gap-[50px]'>
                 <ContactForm />
                 <Image src={"/imgs/SHIFAREF.png"} width={694} height={480} alt="contact us logo" className='rounded-xl  max-w-[694px] w-full max-h-[480px] h-full' />
-            </div>
-        </section>
+            </section>
+        </main>
     )
 }

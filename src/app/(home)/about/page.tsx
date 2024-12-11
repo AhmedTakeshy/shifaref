@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function About() {
     return (
-        <section id='about' className='container flex flex-col items-center mb-12 xl:gap-20 lg:gap-12 sm:gap-7 gap-4'>
+        <main className='container flex flex-col items-center mb-12 xl:gap-20 lg:gap-12 sm:gap-7 gap-4'>
             <Title
                 className='border border-light-green-85 bg-light-green-95 xl:p-24 lg:p-20 sm:p-12 p-7 rounded-xl xl:gap-[50px] lg:gap-10 sm:gap-7 gap-5'
                 title='Welcome to SHIFAREF'
@@ -18,7 +18,7 @@ export default function About() {
             <Title
                 title='Our Mission'
                 subtitle={`At SHIFAREF, we are driven by a passion for natural remedies and holistic health. Our goal is to enhance your well-being with premium products that combine the healing power of nature with scientific expertise.`} subtitleClassName='mx-auto w-4/5' />
-            <div className='text-center w-full'>
+            <section className='text-center w-full'>
                 <Title
                     title='What We Offer'
                     subtitle={`From skincare and cosmetics to dietary supplements and wellness solutions, we bring you a curated selection of products designed to promote health, beauty, and vitality. Our offerings include:`} subtitleClassName='mx-auto w-4/5' />
@@ -28,8 +28,8 @@ export default function About() {
                     <li className='border border-light-green-85 bg-light-green-95 rounded-lg p-2'>Premium perfumes and beauty accessories.</li>
                     <li className='border border-light-green-85 bg-light-green-95 rounded-lg p-2'>Lifestyle products, including kitchen and hobby essentials.</li>
                 </ul>
-            </div>
-        </section>
+            </section>
+        </main>
     )
 }
 
