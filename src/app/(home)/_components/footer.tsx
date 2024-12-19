@@ -25,8 +25,8 @@ export default function Footer() {
     return (
         <footer className='flex flex-col justify-start bg-dark-green-15 px-4 py-8 mt-12'>
             <div className='flex items-center justify-between  mb-5'>
-                <Image src='/imgs/logo.png' alt='logo' width={50} height={75} className='ml-2' />
-                <NavigationMenu className={`ml-auto`}>
+                <Image src='/imgs/logo.png' alt='logo' width={50} height={75} className='sm:ml-2' />
+                <NavigationMenu className={`sm:ml-auto`}>
                     <NavigationMenuList className="items-center justify-center sm:gap-2 flex">
                         {links.map((link) => (
                             <NavigationMenuItem key={link.label}>
