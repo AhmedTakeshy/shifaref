@@ -19,7 +19,6 @@ export default async function Home({ searchParams }: Props) {
   return (
     <main className="flex flex-col min-h-screen">
       <Banner />
-      <Features />
       <Suspense fallback={
         <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 ">
           {Array.from({ length: 12 }).map((_, i) => (
@@ -37,6 +36,7 @@ export default async function Home({ searchParams }: Props) {
           </>
         )}
       </Suspense>
+      <Features />
     </main>
   );
 }
