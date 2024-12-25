@@ -53,7 +53,7 @@ export default function LoginForm() {
                 email: email.toLowerCase(),
                 password,
             })
-            if (res?.status === 200) {
+            if (res?.error === null) {
                 toast.success(`Welcome back!`, {
                     description: "You have successfully signed in",
                 })

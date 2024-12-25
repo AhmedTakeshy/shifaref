@@ -41,24 +41,23 @@ export const {
             maxAge: 432000,
         },
         ...authConfig,
-
         callbacks: {
             async signIn({ user }) {
                 if (user) return true
                 return false
             },
-            async jwt({ token, trigger, session }) {
-                // const userDB = await prisma.user.findUnique({
-                //     where: {
-                //         email: token.email as string
-                //     },
-                //     select: {
-                //         id: true,
-                //         role: true,
-                //     }
-                // })
-                // token.role = userDB?.role ?? user.role
-                // token.id = userDB?.id ?? user.id
+            async jwt({ token, trigger, session, user }) {
+                const userDB = await prisma.user.findUnique({
+                    where: {
+                        email: token.email as string
+                    },
+                    select: {
+                        id: true,
+                        role: true,
+                    }
+                })
+                token.role = userDB?.role ?? user.role
+                token.id = userDB?.id ?? user.id
                 if (trigger === "update") {
                     if (session.user) {
                         token.email = session.user.email
