@@ -16,3 +16,7 @@ type PaginationMetadata = {
     hasNextPage: boolean
     totalPages: number
 }
+type Category = {
+    name: string
+    header: string
+}

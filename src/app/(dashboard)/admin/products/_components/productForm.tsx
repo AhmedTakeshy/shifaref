@@ -16,43 +16,72 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/_components/ui/select"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import { Textarea } from "@/_components/ui/textarea"
 import SubmitButton from "@/_components/submitButton"
 import FileUpload from "./fileUpload"
 import { Button, buttonVariants } from "@/_components/ui/button"
 import Link from "next/link"
-
+import { getCategories } from "@/_actions/productActions"
+import { SelectSeparator } from "@radix-ui/react-select"
+import { Label } from "@/_components/ui/label"
 
 
 
 const initialCategories = [
     {
-        label: 'Personal Care',
-        values: ["Perfumes & Aftershave", "Makeup (lipstick, mascara, foundation, eyeshadow)", "Cosmetics (deodorant, body spray, creams, serums)", "Skincare (Anti-aging, anti-wrinkle, face care creams, foams, masks)", "Aloe Vera Gel", "Mouth Hygiene (mouthwash, dental hygiene kit)", "Body & Intimate Care (body beauty, wellness, creams, gels)", "Hair Care (shampoos, conditioners)"]
-    },
-    {
-        label: 'Health & Wellness',
-        values: ["Supplements (food & beverages, vitamin C & A serum)", "Lactic Acid Skin Peel (for acne, age spots)", "Mental & Physical Fitness (health products)"]
-    },
-    {
-        label: "Baby & Child Care",
-        values: ["Baby & child care products"]
-    },
-    {
-        label: "Lifestyle & Comfort",
-        values: ["Comfort Items", "Hobby & Lifestyle Products", "Portable Blenders (battery powered)"]
-    },
-    {
-        label: "Home & Kitchen",
-        values: ["Kitchen Appliances"]
-    },
-    {
-        label: "Beauty Accessories",
-        values: ["Beauty Products & Accessories"]
-    },
-]
+        header: 'PERSONAL_CARE',
+        name: "Perfumes & Aftershave"
+    }, {
+        header: 'PERSONAL_CARE',
+        name: "Makeup (lipstick, mascara, foundation, eyeshadow)"
+    }, {
+        header: 'PERSONAL_CARE',
+        name: "Cosmetics (deodorant, body spray, creams, serums)"
+    }, {
+        header: 'PERSONAL_CARE',
+        name: "Skincare (Anti-aging, anti-wrinkle, face care creams, foams, masks)"
+    }, {
+        header: 'PERSONAL_CARE',
+        name: "Aloe Vera Gel"
+    }, {
+        header: 'PERSONAL_CARE',
+        name: "Mouth Hygiene (mouthwash, dental hygiene kit)"
+    }, {
+        header: 'PERSONAL_CARE',
+        name: "Body & Intimate Care (body beauty, wellness, creams, gels)"
+    }, {
+        header: 'PERSONAL_CARE',
+        name: "Hair Care (shampoos, conditioners)"
+    }, {
+        header: 'HEALTH_WELLNESS',
+        name: "Supplements (food & beverages, vitamin C & A serum)"
+    }, {
+        header: 'HEALTH_WELLNESS',
+        name: "Lactic Acid Skin Peel (for acne, age spots)"
+    }, {
+        header: 'HEALTH_WELLNESS',
+        name: "Mental & Physical Fitness (health products)"
+    }, {
+        header: 'BABY_CHILD_CARE',
+        name: "Baby & child care products"
+    }, {
+        header: 'LIFESTYLE_COMFORT',
+        name: "Comfort Items"
+    }, {
+        header: 'LIFESTYLE_COMFORT',
+        name: "Hobby & Lifestyle Products"
+    }, {
+        header: 'LIFESTYLE_COMFORT',
+        name: "Portable Blenders (battery powered)"
+    }, {
+        header: 'HOME_KITCHEN',
+        name: "Kitchen Appliances"
+    }, {
+        header: 'BEAUTY_ACCESSORIES',
+        name: "Beauty Products & Accessories"
+    }]
 
 type ProductFormProps<T extends FieldValues> = {
     mode: "create" | "update";
@@ -62,24 +91,40 @@ type ProductFormProps<T extends FieldValues> = {
 export default function ProductForm<T extends FieldValues>({ mode, isPending, onSubmit }: ProductFormProps<T>) {
     const { control, handleSubmit } = useFormContext<T>()
     const categoryInputRef = useRef<HTMLInputElement>(null)
-    const [categories, setCategories] = useState<{ label: string, values: string[] }[]>(initialCategories)
+    const [categories, setCategories] = useState<Category[]>(initialCategories)
 
     const addCategory = () => {
-        if (!categoryInputRef.current?.value.trim()) {
+        const newCategory = categoryInputRef.current?.value.trim();
+
+        if (!newCategory) {
             toast.error("Category name cannot be empty.");
             return;
         }
-        if (categories.some((cat) => cat.values.includes(categoryInputRef.current?.value ?? ""))) {
-            toast.error("This category already exists.");
-            return;
+        setCategories(prev => [...prev, { header: "OTHERS", name: newCategory }]);
+
+        if (categoryInputRef.current) {
+            categoryInputRef.current.value = "";
         }
-        setCategories((prev) => [
-            ...prev,
-            { label: "Custom", values: [categoryInputRef.current?.value ?? ""] },
-        ]);
-        categoryInputRef.current.value = "";
         toast.success("Category added successfully.");
     };
+
+    useEffect(() => {
+        async function fetchCategories() {
+            try {
+                const res = await getCategories()
+                if (res.status === "Error") {
+                    toast.error(res.errorMessage)
+                    return
+                }
+                const newCategories = res.data;
+
+                setCategories(newCategories);
+            } catch {
+                toast.error("Failed to fetch categories.")
+            }
+        }
+        fetchCategories()
+    }, [])
 
 
     return (
@@ -178,12 +223,21 @@ export default function ProductForm<T extends FieldValues>({ mode, isPending, on
                                             <SelectValue placeholder="Select a category" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {categories.map((group, idx) => (
-                                                <SelectGroup key={idx}>
-                                                    <SelectLabel className="font-semibold dark:text-white text-black">{group.label}</SelectLabel>
-                                                    {group.values.map((value) => (
-                                                        <SelectItem key={value} value={value}>
-                                                            {value}
+                                            {Object.entries(
+                                                categories.reduce((acc, category) => {
+                                                    if (!acc[category.header]) {
+                                                        acc[category.header] = [];
+                                                    }
+                                                    acc[category.header].push(category);
+                                                    return acc;
+                                                }, {} as Record<string, Category[]>)
+                                            ).map(([header, categories]) => (
+                                                <SelectGroup key={header}>
+                                                    <SelectLabel className="font-semibold dark:text-white text-black capitalize">{header.replace("_", " ")}</SelectLabel>
+                                                    <SelectSeparator />
+                                                    {categories.map(({ name }) => (
+                                                        <SelectItem key={name} value={name}>
+                                                            {name}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectGroup>
@@ -195,13 +249,16 @@ export default function ProductForm<T extends FieldValues>({ mode, isPending, on
                             </FormItem>
                         )}
                     />
-                    <div className="flex items-center gap-4">
-                        <Input
-                            ref={categoryInputRef}
-                            placeholder="New Category"
-                            className="bg-white dark:bg-slate-200 focus:ring-0 border-none"
-                            type="text"
-                        />
+                    <div className="flex items-end gap-4">
+                        <div className="flex-col flex space-y-2 w-full">
+                            <Label className="dark:text-white">Add Category</Label>
+                            <Input
+                                ref={categoryInputRef}
+                                placeholder="Supplements"
+                                className="bg-white dark:bg-slate-200 focus:ring-0 border-1 "
+                                type="text"
+                            />
+                        </div>
                         <Button
                             onClick={addCategory}
                             type="button"

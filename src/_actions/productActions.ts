@@ -4,7 +4,7 @@ import { unstable_cacheTag as cacheTag } from 'next/cache'
 import { CreateProductSchema, createProductSchema, updateProductSchema, UpdateProductSchema } from "@/lib/formsSchemas"
 import prisma from "@/lib/prisma"
 import { uploadImage } from "@/lib/utils"
-import { Prisma, Product } from "@prisma/client"
+import { Category, Prisma, Product } from "@prisma/client"
 import { revalidateTag } from "next/cache"
 
 type ProductsMetadata = {
@@ -93,43 +93,45 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
     }
 }
 
-export async function createProductAction(data: CreateProductSchema): Promise<ServerResponse<Product>> {
+export async function createProductAction(data: CreateProductSchema): Promise<ServerResponse<null>> {
     try {
         const result = await createProductSchema.safeParseAsync(data)
         if (!result.success) {
             return { status: "Error", errorMessage: "Invalid form data!", statusCode: 401 }
         }
-        const { title, description, price, category, images, checkoutUrl } = result.data
+        const { title, description, price, category, images, checkoutUrl, } = result.data
         const uploadedUrls = [];
         for (const file of Array.from(images)) {
             const imageUrl = await uploadImage(file);
             if (imageUrl) uploadedUrls.push(imageUrl);
             else return { status: "Error", errorMessage: "Failed to upload the image!", statusCode: 401 }
         }
-        const product = await prisma.product.create({
+
+        await prisma.product.create({
             data: {
-                title: title,
-                description: description,
-                price: price,
+                title,
+                description,
+                price,
                 category: {
                     connectOrCreate: {
                         where: {
-                            name: category
+                            name: category,
                         },
                         create: {
                             name: category,
+                            header: "OTHERS"
                         }
                     }
                 },
                 images: uploadedUrls,
-                checkoutUrl: checkoutUrl
+                checkoutUrl
             }
         })
         revalidateTag("get-products")
         return {
             status: "Success",
-            data: product,
-            successMessage: "Product created successfully",
+            data: null,
+            successMessage: `Product ${title} created successfully`,
             statusCode: 200
         }
     } catch {
@@ -159,7 +161,7 @@ export async function getProductById({ productId }: { productId: string }): Prom
     }
 }
 
-export async function updateProductAction({ data, productId }: { data: UpdateProductSchema, productId: number }): Promise<ServerResponse<Product>> {
+export async function updateProductAction({ data, productId }: { data: UpdateProductSchema, productId: number }): Promise<ServerResponse<null>> {
     try {
         const result = await updateProductSchema.safeParseAsync(data)
         if (!result.success) {
@@ -174,14 +176,14 @@ export async function updateProductAction({ data, productId }: { data: UpdatePro
                 else return { status: "Error", errorMessage: "Failed to upload the image!", statusCode: 401 }
             }
         }
-        const product = await prisma.product.update({
+        await prisma.product.update({
             where: {
                 id: productId
             },
             data: {
-                title: title,
-                description: description,
-                price: price,
+                title,
+                description,
+                price,
                 category: {
                     connectOrCreate: {
                         where: {
@@ -193,17 +195,56 @@ export async function updateProductAction({ data, productId }: { data: UpdatePro
                     }
                 },
                 images: uploadedUrls.concat(oldImages),
-                checkoutUrl: checkoutUrl
+                checkoutUrl,
+            }
+        })
+        revalidateTag("get-products")
+        return {
+            status: "Success",
+            data: null,
+            successMessage: `Product ${title} updated successfully`,
+            statusCode: 200
+        }
+    } catch {
+        return { status: "Error", errorMessage: "Failed to update the product!", statusCode: 401 }
+    }
+}
+
+export async function deleteProductAction({ productId }: { productId: number }): Promise<ServerResponse<Product>> {
+    try {
+        const product = await prisma.product.delete({
+            where: {
+                id: productId
             }
         })
         revalidateTag("get-products")
         return {
             status: "Success",
             data: product,
-            successMessage: "Product updated successfully",
+            successMessage: "Product deleted successfully",
             statusCode: 200
         }
     } catch {
-        return { status: "Error", errorMessage: "Failed to update the product!", statusCode: 401 }
+        return { status: "Error", errorMessage: "Failed to delete the product!", statusCode: 401 }
+    }
+}
+
+
+export async function getCategories(): Promise<ServerResponse<Omit<Category, "id" | "createdAt" | "updatedAt">[]>> {
+    try {
+        const categories = await prisma.category.findMany({
+            select: {
+                name: true,
+                header: true,
+            },
+        })
+        return {
+            status: "Success",
+            data: categories,
+            successMessage: "Categories fetched successfully",
+            statusCode: 200
+        }
+    } catch {
+        return { status: "Error", errorMessage: "Failed to fetch the categories!", statusCode: 401 }
     }
 }

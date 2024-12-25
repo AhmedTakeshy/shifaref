@@ -56,17 +56,22 @@ model Product {
 }
 
 model Category {
-  id        Int         @id @default(autoincrement())
-  name      String      @unique
-  type      CategoryTpe @default(DEFAULT)
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  header    CategoryHeader @default(PERSONAL_CARE)
   products  Product[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
 
-enum CategoryTpe {
-  DEFAULT
-  CUSTOM
+enum CategoryHeader {
+  PERSONAL_CARE
+  HEALTH_WELLNESS
+  BABY_CHILD_CARE
+  LIFESTYLE_COMFORT
+  HOME_KITCHEN
+  BEAUTY_ACCESSORIES
+  OTHERS
 }
 
 model Blog {

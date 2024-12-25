@@ -71,41 +71,11 @@ export const updatePasswordSchema = z.object({
     message: "Passwords do not match",
 })
 
-const categories = [
-    {
-        label: 'Personal Care',
-        values: ["Perfumes & Aftershave", "Makeup (lipstick, mascara, foundation, eyeshadow)", "Cosmetics (deodorant, body spray, creams, serums)", "Skincare (Anti-aging, anti-wrinkle, face care creams, foams, masks)", "Aloe Vera Gel", "Mouth Hygiene (mouthwash, dental hygiene kit)", "Body & Intimate Care (body beauty, wellness, creams, gels)", "Hair Care (shampoos, conditioners)"]
-    },
-    {
-        label: 'Health & Wellness',
-        values: ["Supplements (food & beverages, vitamin C & A serum)", "Lactic Acid Skin Peel (for acne, age spots)", "Mental & Physical Fitness (health products)"]
-    },
-    {
-        label: "Baby & Child Care",
-        values: ["Baby & child care products"]
-    },
-    {
-        label: "Lifestyle & Comfort",
-        values: ["Comfort Items", "Hobby & Lifestyle Products", "Portable Blenders (battery powered)"]
-    },
-    {
-        label: "Home & Kitchen",
-        values: ["Kitchen Appliances"]
-    },
-    {
-        label: "Beauty Accessories",
-        values: ["Beauty Products & Accessories"]
-    },
-]
-const defaultCategories = categories.flatMap((category) => category.values);
-
 const baseProductSchema = z.object({
     title: z.string().min(3).max(50),
     price: z.coerce.number().min(1),
     description: z.string().min(12),
-    category: z.string().refine((value) => defaultCategories.includes(value), {
-        message: "Invalid category",
-    }),
+    category: z.string().min(3),
     images: z.array(z.instanceof(File)),
     checkoutUrl: z.string().url(),
 });
