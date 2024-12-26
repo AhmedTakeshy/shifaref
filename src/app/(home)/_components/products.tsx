@@ -1,5 +1,5 @@
 "use client"
-import Title from "@/_components/title";
+import Title from "@/app/(home)/_components/title";
 import ProductCard from "./productCard";
 import Search from "./search";
 import { useSearchParams } from "next/navigation";

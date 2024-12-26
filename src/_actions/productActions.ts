@@ -56,24 +56,7 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
         });
 
         const totalProducts = await prisma.product.count({
-            where: {
-                OR: [
-                    {
-                        title: {
-                            contains: search?.title,
-                            mode: "insensitive"
-                        }
-                    },
-                    {
-                        category: {
-                            name: {
-                                contains: search?.category,
-                                mode: "insensitive"
-                            }
-                        }
-                    }
-                ]
-            }
+            where: whereCondition.OR && whereCondition.OR.length > 0 ? whereCondition : {},
         })
 
         return {
