@@ -1,5 +1,5 @@
 
-import NavMenu from "@/_components/navbar"
+import NavMenu from "@/app/(home)/_components/navbar"
 import Footer from "./_components/footer"
 import ScrollButton from "@/_components/scrollButton"
 
@@ -21,7 +21,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
             label: "Products"
         },
         {
-            href: "/blog",
+            href: "/blog?page=1",
             label: "Blog"
         }
     ]

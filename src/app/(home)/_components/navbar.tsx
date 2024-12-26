@@ -5,8 +5,8 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   navigationMenuTriggerStyle,
-} from "./ui/navigation-menu"
-import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover"
+} from "../../../_components/ui/navigation-menu"
+import { Popover, PopoverTrigger, PopoverContent } from "../../../_components/ui/popover"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import Image from "next/image"
