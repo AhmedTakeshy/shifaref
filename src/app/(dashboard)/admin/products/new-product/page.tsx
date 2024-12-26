@@ -1,7 +1,7 @@
 import CreateProduct from "./_component/createProduct";
 
 
-export default function page() {
+export default function NewProductPage() {
 
     return (
         <div className='flex flex-col items-center justify-center w-full max-w-xl dark:text-slate-800 gap-8 mx-auto mt-12'>

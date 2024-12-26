@@ -4,11 +4,11 @@ import ProductCard from "./_components/productCard"
 import Link from "next/link"
 import PaginationControl from "@/_components/paginationControl"
 
-type Props = {
+type ProductsPageProps = {
     searchParams: Promise<{ [key: string]: string | undefined }>
 }
 
-export default async function page({ searchParams }: Props) {
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
     const { title, category, page } = await searchParams
     const response = await getProducts({ page, search: { title, category } })
 

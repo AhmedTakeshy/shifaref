@@ -15,11 +15,11 @@ export async function generateStaticParams() {
     }))
 }
 
-type PageProps = {
+type ProductTitleIdPageProps = {
     params: Promise<{ [key: string]: string | undefined }>
 }
 
-export default async function page({ params }: PageProps) {
+export default async function ProductTitleIdPage({ params }: ProductTitleIdPageProps) {
     const { productTitleId } = await params
     const id = productTitleId?.split('-').pop() || ''
     const response = await getProductById({ productId: id })

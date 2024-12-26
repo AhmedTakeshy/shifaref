@@ -9,7 +9,7 @@ type Props = {
     searchParams: Promise<{ [key: string]: string | undefined }>
 }
 
-export default async function page({ searchParams }: Props) {
+export default async function MessagesPage({ searchParams }: Props) {
     const { page, search, read } = await searchParams
     const searchObj = search ? JSON.parse(search) : {}
     const response = await getMessages({
