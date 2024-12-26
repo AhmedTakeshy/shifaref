@@ -1,7 +1,7 @@
 "use server"
 import { revalidateTag, unstable_cacheTag as cacheTag } from "next/cache";
 import prisma from "@/lib/prisma";
-import { Blog, Prisma, Tag } from "@prisma/client";
+import { Blog, Tag } from "@prisma/client";
 import { createBlogPostSchema, CreateBlogPostSchema } from "@/lib/formsSchemas";
 
 
@@ -12,7 +12,6 @@ export async function createBlogPostAction(values: CreateBlogPostSchema, userId:
         if (!result.success) {
             return { status: "Error", errorMessage: "Something wrong with entered data.", statusCode: 401 }
         }
-        console.log("🚀 ~ createBlogPostAction ~ result:", result)
         const { title, content, tags, published, } = result.data
         await prisma.blog.create({
             data: {
@@ -20,7 +19,7 @@ export async function createBlogPostAction(values: CreateBlogPostSchema, userId:
                 content,
                 tags: tags ? {
                     create: tags?.trim().split(",").map((tag) => ({
-                        name: tag
+                        name: tag.toLowerCase()
                     }))
                 } : undefined,
                 published,
@@ -36,8 +35,7 @@ export async function createBlogPostAction(values: CreateBlogPostSchema, userId:
             statusCode: 201,
             data: null
         }
-    } catch (err) {
-        console.log("🚀 ~ createBlogPostAction ~ err:", err)
+    } catch {
         return { status: "Error", errorMessage: "Something went wrong!", statusCode: 401 }
     }
 }
@@ -56,37 +54,28 @@ type BlogPostsProps = {
         published?: boolean
     }
 }
+
 export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<ServerResponse<BlogPostsMetadata>> {
     "use cache"
     cacheTag("get-blog-posts")
     const pageNumber = page ? Number(page) : 1
-    const whereCondition: Prisma.BlogWhereInput = {
-        OR: [] as Prisma.BlogWhereInput['OR']
-    };
     try {
-        if (search?.title) {
-            whereCondition.OR?.push({
-                title: {
-                    contains: search.title,
-                    mode: "insensitive"
-                }
-            });
-        }
-
-        if (search?.tag) {
-            whereCondition.OR?.push({
-                tags: {
-                    some: { name: { contains: search.tag } },
-                }
-            });
-        }
-        if (search?.published) {
-            whereCondition.OR?.push({
-                published: search?.published
-            });
-        }
         const blogPosts = await prisma.blog.findMany({
-            where: whereCondition.OR && whereCondition.OR.length > 0 ? whereCondition : {},
+            where: {
+                title: {
+                    contains: search?.title,
+                    mode: "insensitive"
+                },
+                tags: {
+                    some: {
+                        name: {
+                            contains: search?.tag,
+                            mode: "insensitive"
+                        }
+                    },
+                },
+                published: search?.published
+            },
             select: {
                 id: true,
                 title: true,
@@ -117,23 +106,20 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
         }
         const totalBlogPosts = await prisma.blog.count({
             where: {
-                OR: [
-                    {
-                        title: {
-                            contains: search?.title,
+                title: {
+                    contains: search?.title,
+                    mode: "insensitive"
+                },
+                tags: {
+                    some: {
+                        name: {
+                            contains: search?.tag,
                             mode: "insensitive"
-                        },
-                    },
-                    {
-                        tags: {
-                            some: { name: { contains: search?.tag } },
                         }
                     },
-                    {
-                        published: search?.published
-                    }
-                ]
-            }
+                },
+                published: search?.published
+            },
         })
         return {
             statusCode: 200,
@@ -161,6 +147,48 @@ export async function getBlogPostById(id: number): Promise<ServerResponse<BlogWi
         const blogPost = await prisma.blog.findUnique({
             where: {
                 id
+            },
+            include: {
+                tags: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        })
+        if (!blogPost) {
+            return {
+                statusCode: 404,
+                status: "Error",
+                errorMessage: "Blog post not found!",
+            }
+        }
+        return {
+            statusCode: 200,
+            status: "Success",
+            successMessage: "Blog post fetched successfully",
+            data: blogPost as BlogWithTags,
+        }
+    } catch {
+        return {
+            statusCode: 500,
+            status: "Error",
+            errorMessage: "Internal Server Error",
+        }
+    }
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<ServerResponse<BlogWithTags>> {
+    "use cache"
+    cacheTag("get-blog-posts")
+    try {
+        const title = slug.split("_").join(" ")
+        const blogPost = await prisma.blog.findFirst({
+            where: {
+                title: {
+                    contains: title,
+                    mode: "insensitive"
+                }
             },
             include: {
                 tags: {
@@ -250,6 +278,31 @@ export async function deleteBlogPostAction(id: number): Promise<ServerResponse<n
             status: "Success",
             successMessage: "Blog post deleted successfully",
             data: null,
+        }
+    } catch {
+        return {
+            statusCode: 500,
+            status: "Error",
+            errorMessage: "Internal Server Error",
+        }
+    }
+}
+
+export async function getTags(): Promise<ServerResponse<Tag[]>> {
+    try {
+        const tags = await prisma.tag.findMany({ distinct: ['name'] })
+        if (!tags) {
+            return {
+                statusCode: 404,
+                status: "Error",
+                errorMessage: "Tags not found!",
+            }
+        }
+        return {
+            statusCode: 200,
+            status: "Success",
+            successMessage: "Tags fetched successfully",
+            data: tags,
         }
     } catch {
         return {
