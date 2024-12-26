@@ -1,4 +1,4 @@
-import Title from '@/_components/title'
+import Title from '@/app/(home)/_components/title'
 import FeatureCard from './featureCard'
 import { FaLeaf, FaSearch, FaBookOpen } from "react-icons/fa";
 import { MdSupportAgent } from "react-icons/md";

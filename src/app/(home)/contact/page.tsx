@@ -1,9 +1,10 @@
-import Title from '@/_components/title'
+import Title from '@/app/(home)/_components/title'
 import Image from 'next/image'
 import newLogo from '@/../public/imgs/logo.png'
 import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa'
 import Link from 'next/link'
 import ContactForm from './_components/contactForm'
+
 export default function Contact() {
     return (
         <main className='container'>

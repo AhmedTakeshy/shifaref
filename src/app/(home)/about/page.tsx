@@ -1,4 +1,4 @@
-import Title from '@/_components/title'
+import Title from '@/app/(home)/_components/title'
 import React from 'react'
 
 export default function About() {
@@ -17,7 +17,8 @@ export default function About() {
                 products. Don't forget to invoke “the healing prayers”"  />
             <Title
                 title='Our Mission'
-                subtitle={`At SHIFAREF, we are driven by a passion for natural remedies and holistic health. Our goal is to enhance your well-being with premium products that combine the healing power of nature with scientific expertise.`} subtitleClassName='mx-auto w-4/5' />
+                subtitle={`At SHIFAREF, we are driven by a passion for natural remedies and holistic health. Our goal is to enhance your well-being with premium products that combine the healing power of nature with scientific expertise.`}
+                subtitleClassName='mx-auto w-4/5' />
             <section className='text-center w-full'>
                 <Title
                     title='What We Offer'
@@ -32,19 +33,3 @@ export default function About() {
         </main>
     )
 }
-
-/**
- * 
-Our Mission
-At SHIFAREF, we are driven by a passion for natural remedies and holistic health. Our goal is to enhance your well-being with premium products that combine the healing power of nature with scientific expertise.
-
-What We Offer
-From skincare and cosmetics to dietary supplements and wellness solutions, we bring you a curated selection of products designed to promote health, beauty, and vitality. Our offerings include:
-
-Skincare essentials like anti-aging creams, serums, and masks.
-Health and wellness supplements for a balanced lifestyle.
-Premium perfumes and beauty accessories.
-Lifestyle products, including kitchen and hobby essentials.
-Our Commitment
-With decades of experience and dedication to excellence, we ensure every product meets the highest standards of quality, transparency, and customer satisfaction. Join us in embracing a healthier, more beautiful life.
- */

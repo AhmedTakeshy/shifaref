@@ -78,8 +78,8 @@ export async function getMessages({ page, search, read }: MessagesProps): Promis
                             mode: "insensitive"
                         }
                     },
-                    { read }
-                ]
+                ],
+                AND: { read }
             },
             select: {
                 id: true,
