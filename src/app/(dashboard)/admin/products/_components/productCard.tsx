@@ -1,9 +1,30 @@
-import { buttonVariants } from "@/_components/ui/button";
+"use client"
+import { deleteProductAction } from "@/_actions/productActions";
+import { Button, buttonVariants } from "@/_components/ui/button";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function ProductCard({ title, description, price, categoryName, images, checkoutUrl, id }: Product) {
+    const router = useRouter()
+
+    async function handleDelete() {
+        try {
+            const res = await deleteProductAction({ productId: id })
+            if (res.status === "Success") {
+                toast.success("Success", { description: res.successMessage })
+                router.push("/admin/products?page=1")
+            } else {
+                toast.error("Error", { description: res.errorMessage })
+            }
+        } catch {
+            toast.error("Error!", {
+                description: "Something went wrong. Please try again.",
+            })
+        }
+    }
     return (
         <li className='p-4 rounded-xl dark:bg-slate-900 bg-slate-100'>
             <div>
@@ -31,9 +52,14 @@ export default function ProductCard({ title, description, price, categoryName, i
                 <p className="text-base text-center self-start mt-4">
                     Checkout Url: <Link href={checkoutUrl} className={`text-blue-600 underline`} target="_blank"> {checkoutUrl}</Link>
                 </p>
-                <Link href={`/admin/products/${title.replace(" ", "-")}-${id}`} className={`${buttonVariants()} mt-4`}>
-                    Edit product
-                </Link>
+                <div className="flex gap-2 items-center mt-4">
+                    <Link href={`/admin/products/${title.replace(" ", "-")}-${id}`} className={`${buttonVariants()}`}>
+                        Edit
+                    </Link>
+                    <Button onClick={handleDelete} variant={"destructive"}>
+                        Delete
+                    </Button>
+                </div>
             </div>
         </li>
     )
