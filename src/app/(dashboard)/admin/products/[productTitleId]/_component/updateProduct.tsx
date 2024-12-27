@@ -70,7 +70,6 @@ export default function UpdateProduct({ product }: UpdateProductProps) {
 
     async function handleDeleteImage(image: string) {
         setImages(prev => prev.filter((img) => img !== image));
-        console.log("🚀 ~ handleDeleteImage ~ optimisticImages:", images)
         const res = await deleteImage(image);
         if (res.status === "Error") {
             setImages(prev => [...prev, image]);
