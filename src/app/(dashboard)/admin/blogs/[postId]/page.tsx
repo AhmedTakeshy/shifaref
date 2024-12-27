@@ -1,33 +1,30 @@
-import { getBlogPostById, } from '@/_actions/blogActions'
-import BlogForm from '../_components/blogForm'
-import prisma from '@/lib/prisma'
-
+import { getBlogPostById } from "@/_actions/blogActions"
+import prisma from "@/lib/prisma"
+import BlogPostCard from "../_components/blogPostCard"
 
 export async function generateStaticParams() {
-    const posts = await prisma.blog.findMany({})
-    return posts.map((post) => ({
-        postId: post.id.toString()
-    }))
+  const posts = await prisma.blog.findMany()
+  return posts.map((post) => ({
+    postId: post.id.toString()
+  }))
 }
 
-type Props = {
-    params: Promise<{ [key: string]: string | undefined }>
+type BlogPostIdPageProps = {
+  params: Promise<{ [key: string]: string | undefined }>
 }
 
-export default async function page({ params }: Props) {
-    const { postId } = await params
-    const response = await getBlogPostById(parseInt(postId as string))
-    console.log("🚀 ~ page ~ response:", response)
-    return (
-        <div className='flex flex-col items-center justify-center w-full max-w-xl dark:text-slate-800 gap-8 mx-auto mt-12'>
-            <h1 className='text-4xl font-semibold'>Update blog post.</h1>
-            {response.status === "Success" ? (
-                <BlogForm post={response.data} />
-            ) : (
-                <p className="text-semibold text-base text-rose-600">
-                    {response.errorMessage}
-                </p>
-            )}
-        </div>
-    )
+export default async function BlogPostIdPage({ params }: BlogPostIdPageProps) {
+  const { postId } = await params
+  const response = await getBlogPostById(parseInt(postId as string))
+  return (
+    <main className='flex flex-col gap-10 dark:bg-slate-800 bg-slate-200 p-5 rounded-xl mt-5 '>
+      {response.status === "Success" ? (
+        <BlogPostCard  {...response.data} mode='edit' />
+      ) : (
+        <p className="text-semibold text-base text-rose-600">
+          {response.errorMessage}
+        </p>
+      )}
+    </main>
+  )
 }

@@ -29,6 +29,7 @@ export async function createBlogPostAction(values: CreateBlogPostSchema, userId:
             }
         })
         revalidateTag("get-blog-posts")
+        revalidateTag("get-tags")
         return {
             status: "Success",
             successMessage: `Blog post has been created successfully with this title ${title}`,
@@ -63,18 +64,22 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
         const blogPosts = await prisma.blog.findMany({
             where: {
                 title: {
-                    contains: search?.title,
+                    contains: search?.title || "",
                     mode: "insensitive"
                 },
+                content: {
+                    contains: search?.title || "",
+                    mode: "insensitive"
+                },
+                published: search?.published,
                 tags: {
                     some: {
                         name: {
-                            contains: search?.tag,
+                            contains: search?.tag || "",
                             mode: "insensitive"
                         }
-                    },
-                },
-                published: search?.published
+                    }
+                }
             },
             select: {
                 id: true,
@@ -107,19 +112,23 @@ export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<Se
         const totalBlogPosts = await prisma.blog.count({
             where: {
                 title: {
-                    contains: search?.title,
+                    contains: search?.title || "",
                     mode: "insensitive"
                 },
+                content: {
+                    contains: search?.title || "",
+                    mode: "insensitive"
+                },
+                published: search?.published,
                 tags: {
                     some: {
                         name: {
-                            contains: search?.tag,
+                            contains: search?.tag || "",
                             mode: "insensitive"
                         }
-                    },
+                    }
                 },
-                published: search?.published
-            },
+            }
         })
         return {
             statusCode: 200,
@@ -179,8 +188,6 @@ export async function getBlogPostById(id: number): Promise<ServerResponse<BlogWi
 }
 
 export async function getBlogPostBySlug(slug: string): Promise<ServerResponse<BlogWithTags>> {
-    "use cache"
-    cacheTag("get-blog-posts")
     try {
         const title = slug.split("_").join(" ")
         const blogPost = await prisma.blog.findFirst({
@@ -289,6 +296,8 @@ export async function deleteBlogPostAction(id: number): Promise<ServerResponse<n
 }
 
 export async function getTags(): Promise<ServerResponse<Tag[]>> {
+    "use cache"
+    cacheTag("get-tags")
     try {
         const tags = await prisma.tag.findMany({ distinct: ['name'] })
         if (!tags) {

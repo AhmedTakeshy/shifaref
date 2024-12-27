@@ -13,11 +13,11 @@ export async function generateStaticParams() {
     }))
 }
 
-type BlogPostProps = {
+type BlogPostPageProps = {
     params: Promise<{ [key: string]: string | undefined }>
 }
 
-export default async function BlogPost({ params }: BlogPostProps) {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { postSlug } = await params
     const res = await getBlogPostBySlug(postSlug as string)
     return (

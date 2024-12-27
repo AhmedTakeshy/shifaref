@@ -10,10 +10,10 @@ import SkeletonCard from '@/_components/skeletonCard'
 
 export const experimental_ppr = true;
 
-type BlogProps = {
+type BlogPageBlogProps = {
     searchParams: Promise<{ [key: string]: string | string | undefined }>
 }
-export default async function BlogPage({ searchParams }: BlogProps) {
+export default async function BlogPage({ searchParams }: BlogPageBlogProps) {
     const { tag, title, page } = await searchParams
     const resTags = await getTags()
     const resPosts = await getBlogPosts({ page, search: { tag, title, published: true } })
@@ -38,7 +38,7 @@ export default async function BlogPage({ searchParams }: BlogProps) {
                     {resTags.status === "Success" ? (
                         resTags.data.map((tag) => (
                             <li key={`${tag.name}-${tag.id}`} >
-                                <Link href={`/blog?page=${page || 1}&tag=${tag.name}`} className='px-3 py-1 capitalize border rounded-md hover:text-light-green-70 hover:border-light-green-70'>
+                                <Link href={`/blog?page=${page || 1}&tag=${tag.name}`} className='px-3 py-1 capitalize border rounded-md hover:px-4 duration-500 transition-all will-change-auto hover:text-light-green-70 hover:border-light-green-70'>
                                     {tag.name}
                                 </Link>
                             </li>

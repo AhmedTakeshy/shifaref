@@ -28,7 +28,6 @@ export default function BlogForm({ post }: BlogFormProps) {
     const [isPending, setIsPending] = useState(false)
     const [isPublished, setIsPublished] = useState(false)
     const { data: session } = useSession()
-    console.log("🚀 ~ BlogForm ~ session:", session?.user)
     const router = useRouter()
 
     const form = useForm<CreateBlogPostSchema>({
@@ -42,7 +41,6 @@ export default function BlogForm({ post }: BlogFormProps) {
     })
 
     async function createBlogPost(data: CreateBlogPostSchema) {
-        console.log("🚀 ~ createBlogPost ~ data:", data)
         setIsPending(true)
         try {
             const result = await createBlogPostSchema.safeParseAsync(data)
@@ -142,7 +140,7 @@ export default function BlogForm({ post }: BlogFormProps) {
                             type="submit"
                             onClick={() => setIsPublished(false)}
                         />
-                        <Link href="/admin/blogs?page=1" className={`${buttonVariants({ variant: "destructive" })}`}>
+                        <Link href="." className={`${buttonVariants({ variant: "destructive" })}`}>
                             Cancel
                         </Link>
                     </div>
