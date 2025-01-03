@@ -27,7 +27,7 @@ export default function Contact() {
                     <article className='flex flex-col items-center w-full gap-5 p-8 border rounded-md bg-dark-green-20 border-dark-green-25'>
                         <FaEnvelope className='mr-2 size-5 text-light-green-70' />
                         <Link href={"mailto:arefabu@gmail.com"}>
-                            Arefabu@gmail.com
+                            arefabu@gmail.com
                         </Link>
                     </article>
                 </div>
