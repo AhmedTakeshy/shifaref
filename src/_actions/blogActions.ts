@@ -59,7 +59,7 @@ type BlogPostsProps = {
 export async function getBlogPosts({ page, search }: BlogPostsProps): Promise<ServerResponse<BlogPostsMetadata>> {
     "use cache"
     cacheTag("get-blog-posts")
-    const pageNumber = page ? Number(page) : 1
+    const pageNumber = parseInt(page || "1")
     try {
         const blogPosts = await prisma.blog.findMany({
             where: {

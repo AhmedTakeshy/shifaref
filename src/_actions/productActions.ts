@@ -22,8 +22,6 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
     'use cache'
     cacheTag("get-products")
     const pageNumber = parseInt(page || "1")
-
-
     try {
         const products = await prisma.product.findMany({
             where:
@@ -56,8 +54,6 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
                     }
                 }
             },
-            skip: (pageNumber - 1) * 12,
-            take: 12,
         })
 
         return {

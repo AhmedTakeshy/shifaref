@@ -12,7 +12,6 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     const { title, category, page } = await searchParams
     const response = await getProducts({ page, search: { title, category } })
 
-
     return (
         <div className="flex flex-col gap-10 dark:bg-slate-800 bg-slate-200 p-5 rounded-xl mt-5">
             <div className="flex items-center justify-between my-5">
