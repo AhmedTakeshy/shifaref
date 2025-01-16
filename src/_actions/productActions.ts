@@ -4,7 +4,7 @@ import { unstable_cacheTag as cacheTag } from 'next/cache'
 import { CreateProductSchema, createProductSchema, updateProductSchema, UpdateProductSchema } from "@/lib/formsSchemas"
 import prisma from "@/lib/prisma"
 import { uploadImage } from "@/lib/utils"
-import { Category, Prisma, Product } from "@prisma/client"
+import { Category, Product } from "@prisma/client"
 import { revalidateTag } from "next/cache"
 
 type ProductsMetadata = {
@@ -22,41 +22,42 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
     'use cache'
     cacheTag("get-products")
     const pageNumber = parseInt(page || "1")
-    const whereCondition: Prisma.ProductWhereInput = {
-        OR: [] as Prisma.ProductWhereInput['OR']
-    };
 
 
     try {
-
-        if (search?.title) {
-            whereCondition.OR?.push({
+        const products = await prisma.product.findMany({
+            where:
+            {
                 title: {
-                    contains: search.title,
+                    contains: search?.title,
                     mode: "insensitive"
-                }
-            });
-        }
-
-        if (search?.category) {
-            whereCondition.OR?.push({
+                },
                 category: {
                     name: {
                         contains: search?.category,
                         mode: "insensitive"
                     }
                 }
-            });
-        }
-
-        const products = await prisma.product.findMany({
-            where: whereCondition.OR && whereCondition.OR.length > 0 ? whereCondition : {},
+            },
             skip: (pageNumber - 1) * 12,
             take: 12,
         });
 
         const totalProducts = await prisma.product.count({
-            where: whereCondition.OR && whereCondition.OR.length > 0 ? whereCondition : {},
+            where: {
+                title: {
+                    contains: search?.title,
+                    mode: "insensitive"
+                },
+                category: {
+                    name: {
+                        contains: search?.category,
+                        mode: "insensitive"
+                    }
+                }
+            },
+            skip: (pageNumber - 1) * 12,
+            take: 12,
         })
 
         return {
