@@ -51,7 +51,7 @@ export async function getProducts({ page, search }: ProductsProps): Promise<Serv
 
         const products = await prisma.product.findMany({
             where: whereCondition.OR && whereCondition.OR.length > 0 ? whereCondition : {},
-            skip: Math.max(0, (pageNumber - 1) * 12),
+            skip: (pageNumber - 1) * 12,
             take: 12,
         });
 
