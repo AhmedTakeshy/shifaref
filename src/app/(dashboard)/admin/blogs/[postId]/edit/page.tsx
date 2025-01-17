@@ -1,6 +1,13 @@
 import { getBlogPostById, } from '@/_actions/blogActions'
 import BlogForm from '../../_components/blogForm'
+import prisma from '@/lib/prisma'
 
+export async function generateStaticParams() {
+    const posts = await prisma.blog.findMany()
+    return posts.map((post) => ({
+        postId: post.id.toString()
+    }))
+}
 
 type EditBlogPageProps = {
     params: Promise<{ [key: string]: string | undefined }>
