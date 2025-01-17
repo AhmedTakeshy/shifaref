@@ -1,9 +1,10 @@
 import Image from "next/image";
+import womanImg from "@/../public/imgs/woman-banner.png";
 
 export default function Banner() {
     return (
         <section className="flex flex-col items-center justify-between mb-12 sm:flex-row gap-x-10">
-            <Image src="/imgs/woman-banner.png" alt="hero" width={711} height={712} className="sm:w-1/2" />
+            <Image src={womanImg} alt="hero" width={711} height={712} className="sm:w-1/2" loading="lazy" placeholder={"blur"} blurDataURL={womanImg.blurDataURL} />
             <article className="container flex flex-col justify-center my-12 ml-0 text-center sm:my-0 sm:w-5/12 gap-y-4 text-dark-green-15 sm:text-left">
                 <h2 className="mx-auto text-lg font-semibold border-b-[3px] border-light-green-70 lg:text-3xl sm:text-xl sm:mx-0 sm:w-fit">Enjoy Your ❤️ Health with</h2>
                 <h1 className="lg:text-[58px] sm:text-5xl text-[38px] font-bold">Empowering Your Health and Beauty, Naturally</h1>
