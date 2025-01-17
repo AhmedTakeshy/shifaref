@@ -12,12 +12,14 @@ type PaginationControlProps = {
     totalPages: number
   }
   className?: string
+  scrollToTop?: boolean
 }
 
-export default function PaginationControl({ currentPage, metadata, className, }: PaginationControlProps) {
+export default function PaginationControl({ currentPage, metadata, className, scrollToTop }: PaginationControlProps) {
   const { totalPages, hasNextPage } = metadata
   const hasPreviousPage = currentPage > 1
   const searchParams = useSearchParams()
+  console.log("🚀 ~ PaginationControl ~ searchParams:", searchParams)
 
   const createPageLink = (page: number) => ({
     query: {
@@ -34,7 +36,11 @@ export default function PaginationControl({ currentPage, metadata, className, }:
       )}
     >
       <Button asChild size={"icon"} variant="ghost">
-        <Link aria-label="Go to the first page" href={createPageLink(1)}>
+        <Link
+          aria-label="Go to the first page"
+          href={createPageLink(1)}
+          scroll={scrollToTop}
+        >
           <FiChevronsLeft className="h-4 w-4" />
         </Link>
       </Button>
@@ -47,6 +53,7 @@ export default function PaginationControl({ currentPage, metadata, className, }:
         <Link
           aria-label="Go to the previous page"
           href={createPageLink(Math.max(currentPage - 1, 1))}
+          scroll={scrollToTop}
         >
           Prev
         </Link>
@@ -63,12 +70,17 @@ export default function PaginationControl({ currentPage, metadata, className, }:
         <Link
           aria-label="Go to the next page"
           href={createPageLink(Math.min(currentPage + 1, totalPages))}
+          scroll={scrollToTop}
         >
           Next
         </Link>
       </Button>
       <Button asChild size={"icon"} variant="ghost">
-        <Link aria-label="Go to the last page" href={createPageLink(totalPages)}>
+        <Link
+          aria-label="Go to the last page"
+          href={createPageLink(totalPages)}
+          scroll={scrollToTop}
+        >
           <FiChevronsRight className="h-4 w-4 " />
         </Link>
       </Button>

@@ -32,6 +32,7 @@ export default async function Home({ searchParams }: Props) {
             <PaginationControl
               currentPage={page ? parseInt(page) : 1}
               metadata={res.data.metadata}
+              scrollToTop={false}
             />
           </>
         )}
