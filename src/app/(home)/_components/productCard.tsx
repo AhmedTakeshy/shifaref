@@ -6,6 +6,7 @@ import { useOutsideClick } from "@/hooks/use-outside-click";
 import Link from "next/link";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi, } from "@/_components/ui/carousel";
 import Fade from "embla-carousel-fade"
+import { useSearchParams } from "next/navigation";
 
 
 
@@ -25,9 +26,24 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
     const [active, setActive] = useState<ProductCardProps | boolean | null>(
         null
     );
+    const searchParams = useSearchParams();
     const [api, setApi] = useState<CarouselApi>()
     const [current, setCurrent] = useState(0)
     const [count, setCount] = useState(0)
+
+    const handleActiveProduct = (value: string) => {
+        const updatedQuery = new URLSearchParams(searchParams.toString())
+
+        if (value) {
+            updatedQuery.set("product-name", value.replace(/ /g, "_").toLowerCase())
+        } else {
+            updatedQuery.delete("product-name")
+        }
+
+        const url = new URL(window.location.href)
+        url.search = updatedQuery.toString()
+        window.history.pushState({}, "", url.toString())
+    }
 
     useEffect(() => {
         if (!api) {
@@ -37,10 +53,12 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
         setCount(api.scrollSnapList().length)
         setCurrent(api.selectedScrollSnap() + 1)
 
+        // This function makes the carousel dots work and the card appear in initial state as a bug
         api.on("select", () => {
             setCurrent(api.selectedScrollSnap() + 1)
         })
-    }, [api])
+
+    }, [api, setApi])
 
     const ref = useRef<HTMLDivElement | null>(null);
 
@@ -61,7 +79,10 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
         return () => window.removeEventListener("keydown", onKeyDown);
     }, [active]);
 
-    useOutsideClick(ref, () => setActive(null));
+    useOutsideClick(ref, () => {
+        setActive(null);
+        handleActiveProduct("")
+    });
 
     return (
         <>
@@ -107,13 +128,15 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
                                 <Carousel
                                     opts={{ containScroll: false, loop: true }}
                                     plugins={[Fade()]}
-                                    setApi={setApi}
+                                // setApi={setApi} // If this is uncommented, the carousel dots won't work and the bugs will be fixed
                                 >
                                     <CarouselContent>
                                         {active.images.map((src) => (
                                             <CarouselItem key={src}>
                                                 <Image
-                                                    priority
+                                                    loading="lazy"
+                                                    placeholder="blur"
+                                                    blurDataURL={src}
                                                     width={960}
                                                     height={640}
                                                     src={src}
@@ -170,6 +193,7 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
                                         className="flex items-center gap-4"
                                     >
                                         <Link href={active.checkoutUrl}
+                                            rel={"noopener noreferrer"}
                                             target="_blank"
                                             className="px-4 py-3 text-sm font-bold text-white transition-colors duration-300 border-2 border-transparent hover:text-dark-green-15 bg-light-green-70 rounded-xl hover:border-light-green-70 hover:bg-transparent "
                                         >
@@ -198,12 +222,18 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
             <motion.li
                 layoutId={`card-${title}-${id}`}
                 key={title}
-                onClick={() => setActive({ title, categoryName, images, checkoutUrl, description, price, id })}
+                onClick={() => {
+                    setActive({ title, categoryName, images, checkoutUrl, description, price, id })
+                    handleActiveProduct(title)
+                }}
                 className="flex flex-col p-4 cursor-pointer hover:bg-light-green-90 dark:hover:bg-neutral-800 rounded-xl"
             >
                 <div className="flex flex-col w-full gap-4">
                     <motion.div layoutId={`image-${title}-${id}`}>
                         <Image
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL={images[0]}
                             width={960}
                             height={640}
                             src={images[0]}

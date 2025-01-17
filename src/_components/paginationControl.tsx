@@ -19,7 +19,6 @@ export default function PaginationControl({ currentPage, metadata, className, sc
   const { totalPages, hasNextPage } = metadata
   const hasPreviousPage = currentPage > 1
   const searchParams = useSearchParams()
-  console.log("🚀 ~ PaginationControl ~ searchParams:", searchParams)
 
   const createPageLink = (page: number) => ({
     query: {

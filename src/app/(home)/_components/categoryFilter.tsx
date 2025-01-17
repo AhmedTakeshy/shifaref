@@ -77,6 +77,7 @@ export default function CategoryFilter() {
     };
     const searchParams = useSearchParams()
     const [groupedCategories, setGroupedCategories] = useState<Record<string, Category[]>>(groupCategories(initialCategories))
+
     const handleSearchValue = (value: string) => {
         const updatedQuery = new URLSearchParams(searchParams.toString())
 
