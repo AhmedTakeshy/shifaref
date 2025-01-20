@@ -97,6 +97,7 @@ export const metadata: Metadata = {
   appLinks: {
     web: { url: "https://shifaref.com" },
   },
+  "google-site-verification" :"n9XI0HxVZaOBfVRdXxFVX3E71gSbJQy30sP-GAnjLko"
 
 };
 
