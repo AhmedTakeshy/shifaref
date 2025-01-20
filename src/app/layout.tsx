@@ -93,11 +93,11 @@ export const metadata: Metadata = {
     "og:image:height": "600",
     "og:image:alt": "SHIFAREF logo",
     "og:site_name": "SHIFAREF",
+  "google-site-verification" :"n9XI0HxVZaOBfVRdXxFVX3E71gSbJQy30sP-GAnjLko",
   },
   appLinks: {
     web: { url: "https://shifaref.com" },
   },
-  "google-site-verification" :"n9XI0HxVZaOBfVRdXxFVX3E71gSbJQy30sP-GAnjLko"
 
 };
 
