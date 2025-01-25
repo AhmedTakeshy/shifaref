@@ -3,8 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
-   dynamicIO: true,
+    dynamicIO: true,
     ppr: "incremental",
+    useCache: true,
   },
   bundlePagesRouterDependencies: true,
   logging: {
