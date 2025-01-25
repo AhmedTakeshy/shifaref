@@ -55,7 +55,7 @@ export default function Footer() {
                 </li>
                 <li className='text-grey-95 mt-1 sm:ml-auto'>
                     © 2023 SHIFAREF. All rights reserved. <br />
-                    Developed with 🤍 by <Link href="https://takeshy.tech" target="_blank" rel="noopener noreferrer" className='text-transparent animate-text bg-gradient-to-r from-green-500 to-blue-500 rounded-lg  bg-clip-text font-black'>Takeshy</Link>
+                    Developed with 🤍 by <Link href="https://takeshy.vercel.app" target="_blank" rel="noopener noreferrer" className='text-transparent animate-text bg-gradient-to-r from-green-500 to-blue-500 rounded-lg  bg-clip-text font-black'>Takeshy</Link>
                 </li>
             </ul>
         </footer>

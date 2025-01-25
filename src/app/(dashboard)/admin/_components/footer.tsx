@@ -11,7 +11,7 @@ export default function Footer() {
             <p>
                 Developed by
                 <Link
-                    href="https://takeshy.tech"
+                    href="https://takeshy.vercel.app"
                     target="_blank"
                     rel="noopener noreferrer"
                     className='font-bold text-transparent animate-text bg-clip-text bg-gradient-to-r from-blue-500 via-orange-500 to-purple-500'
