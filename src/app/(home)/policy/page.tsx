@@ -26,7 +26,7 @@ export default function Policy() {
                 <p className="text-gray-700">For the purposes of this Cookies Policy:</p>
                 <ul className="list-disc pl-6 text-gray-700">
                     <li>
-                        <strong>Company:</strong> (referred to as either "the Company", "We", "Us" or "Our" in this Cookies Policy) refers to Shifaref.
+                        <strong>Company:</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Cookies Policy) refers to Shifaref.
                     </li>
                     <li>
                         <strong>Cookies:</strong> means small files that are placed on Your computer, mobile device, or any other device by a website, containing details of your browsing history on that website among its many uses.
@@ -50,7 +50,7 @@ export default function Policy() {
                 <h2 className="text-lg font-semibold text-gray-900">The Use of Cookies</h2>
                 <h3 className="text-md font-medium text-gray-800">Types of Cookies We Use</h3>
                 <p className="text-gray-700">
-                    Cookies can be "Persistent" or "Session" Cookies. Persistent Cookies remain on your personal computer or mobile device when You go offline, while Session Cookies are deleted as soon as You close your web browser.
+                    Cookies can be &quot;Persistent&quot; or &quot;Session&quot; Cookies. Persistent Cookies remain on your personal computer or mobile device when You go offline, while Session Cookies are deleted as soon as You close your web browser.
                 </p>
                 <p className="text-gray-700">We use both session and persistent Cookies for the purposes set out below:</p>
                 <ul className="list-disc pl-6 text-gray-700 space-y-4">
@@ -84,7 +84,7 @@ export default function Policy() {
                     If You do not accept Our Cookies, You may experience some inconvenience in your use of the Website, and some features may not function properly.
                 </p>
                 <p className="text-gray-700">
-                    If You'd like to delete Cookies or instruct your web browser to delete or refuse Cookies, please visit the help pages of your web browser:
+                    If You&apos;d like to delete Cookies or instruct your web browser to delete or refuse Cookies, please visit the help pages of your web browser:
                 </p>
                 <ul className="list-disc pl-6 text-gray-700 space-y-2">
                     <li>
