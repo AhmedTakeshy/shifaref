@@ -4,15 +4,6 @@ import { useEffect, useState } from 'react';
 import { useGetCookie, useSetCookie } from 'cookies-next/client';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Button } from "@/_components/ui/button"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/_components/ui/dialog"
 
 type CookiesProps = {
     cookie: string;
