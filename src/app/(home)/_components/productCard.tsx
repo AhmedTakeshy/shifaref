@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { JSX, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import Link from "next/link";
@@ -18,7 +18,7 @@ type ProductCardProps = {
     categoryName: string;
     images: string[];
     checkoutUrl: string;
-    description: () => JSX.Element;
+    description: string
 };
 
 
@@ -35,7 +35,7 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
         const updatedQuery = new URLSearchParams(searchParams.toString())
 
         if (value) {
-            updatedQuery.set("product-name", value.replace(/ /g, "_").toLowerCase())
+            updatedQuery.set("product-name", value.toLowerCase())
         } else {
             updatedQuery.delete("product-name")
         }
@@ -209,8 +209,8 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
                                         exit={{ opacity: 0 }}
                                         className="text-dark-green-25 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                                     >
-                                        {typeof active.description === "function"
-                                            ? active.description()
+                                        {typeof active.description === "string"
+                                            ? (<p>{active.description}</p>)
                                             : active.description}
                                     </motion.div>
                                 </div>
