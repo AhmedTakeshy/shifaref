@@ -128,19 +128,21 @@ export default function BlogForm({ post }: BlogFormProps) {
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-5 !mt-5">
                         <SubmitButton
                             pending={isPending && isPublished}
-                            className="w-full sm:w-auto bg-green-500 hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800"
+                            className={`w-full sm:w-auto bg-green-500 hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800 ${isPublished ? "hover:disabled:cursor-not-allowed" : ""}`}
                             text="Publish"
                             type="submit"
+                            disabled={isPublished}
                             onClick={() => setIsPublished(true)}
                         />
                         <SubmitButton
                             pending={isPending && !isPublished}
-                            className="w-full sm:w-auto "
+                            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
                             text="Draft"
                             type="submit"
                             onClick={() => setIsPublished(false)}
+                            disabled={!isPublished}
                         />
-                        <Link href="." className={`${buttonVariants({ variant: "destructive" })}`}>
+                        <Link href="." className={`${buttonVariants()}`}>
                             Cancel
                         </Link>
                     </div>

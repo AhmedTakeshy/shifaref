@@ -10,11 +10,6 @@ import { useRouter } from 'next/navigation'
 type BlogPostCardProps = BlogWithTags & { mode: "edit" | "view" }
 export default function BlogPostCard({ id, title, createdAt, content, published, tags, mode }: BlogPostCardProps) {
     const Router = useRouter()
-    {/* {image !== null && (
-                        <div className="flex items-center">
-                            <Image src={`${image}`} alt="blog" width={400} height={300} className="rounded-t-2xl w-full object-cover" />
-                        </div>
-                    )} */}
 
     async function handleDelete() {
         try {
@@ -54,10 +49,10 @@ export default function BlogPostCard({ id, title, createdAt, content, published,
                 ))}
             </div>
             <div className="flex justify-start items-center gap-5 ">
-                <Link href={`/admin/blogs/${id}${mode === "edit" ? "/edit" : ""}`} className={`${buttonVariants()} capitalize`}>{mode}</Link>
+                <Link href={`/admin/blogs/${id}${mode === "edit" ? "/edit" : ""}`} className={`${buttonVariants()} !bg-blue-600 hover:!bg-blue-700 capitalize`}>{mode}</Link>
                 <Button variant={"destructive"} onClick={handleDelete}>Delete</Button>
                 {mode === "edit" && (
-                    <Link href={`/admin/blogs?page=1`} className={`${buttonVariants()} bg-blue-800 hover:bg-blue-600`}>Back</Link>
+                    <Link href={`/admin/blogs?page=1`} className={`${buttonVariants()}`}>Back</Link>
                 )}
                 <Button variant={"outline"} disabled className='ml-auto'>
                     {published ? "Published" : "Drafted"}
