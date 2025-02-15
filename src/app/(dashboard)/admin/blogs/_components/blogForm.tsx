@@ -16,7 +16,7 @@ import { CreateBlogPostSchema, createBlogPostSchema } from "@/lib/formsSchemas"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { BlogWithTags, createBlogPostAction } from "@/_actions/blogActions"
+import { BlogWithTags, createBlogPostAction, updateBlogPostAction } from "@/_actions/blogActions"
 import { useSession } from "next-auth/react"
 import { buttonVariants } from "@/_components/ui/button"
 import Link from "next/link"
@@ -26,7 +26,7 @@ type BlogFormProps = {
 }
 export default function BlogForm({ post }: BlogFormProps) {
     const [isPending, setIsPending] = useState(false)
-    const [isPublished, setIsPublished] = useState(false)
+    const [isPublished, setIsPublished] = useState(post?.published || false)
     const { data: session } = useSession()
     const router = useRouter()
 
@@ -40,7 +40,7 @@ export default function BlogForm({ post }: BlogFormProps) {
         },
     })
 
-    async function createBlogPost(data: CreateBlogPostSchema) {
+    async function handleBlogPost(data: CreateBlogPostSchema) {
         setIsPending(true)
         try {
             const result = await createBlogPostSchema.safeParseAsync(data)
@@ -50,8 +50,8 @@ export default function BlogForm({ post }: BlogFormProps) {
                 })
                 return
             }
-            const res = await createBlogPostAction({ ...result.data, published: isPublished }, parseInt(session?.user.id as string))
-            console.log("🚀 ~ createBlogPost ~ res:", res)
+            const res = post ? await updateBlogPostAction({ ...result.data, published: isPublished }, post.id) : await createBlogPostAction(result.data, Number(session?.user.id as string))
+            console.log("🚀 ~ handleBlogPost ~ res:", res)
             if (res.status === "Success") {
                 toast.success("Success", { description: res.successMessage })
                 form.reset()
@@ -70,7 +70,7 @@ export default function BlogForm({ post }: BlogFormProps) {
     return (
         <div className="w-full p-4 mb-4 space-y-2 rounded-md max-sm:max-w-xs dark:bg-slate-800 bg-slate-200">
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(createBlogPost)} className="space-y-2">
+                <form onSubmit={form.handleSubmit(handleBlogPost)} className="space-y-2">
                     <FormField
                         control={form.control}
                         name={"title"}
