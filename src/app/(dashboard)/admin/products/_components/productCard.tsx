@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-export default function ProductCard({ title, description, price, categoryName, images, checkoutUrl, id }: Product) {
+export default function ProductCard({ title, description, price, categoryName, images, checkoutUrl, id, detailsUrl }: Product) {
     const router = useRouter()
 
     async function handleDelete() {
@@ -51,6 +51,9 @@ export default function ProductCard({ title, description, price, categoryName, i
                 </p>
                 <p className="text-base text-center self-start mt-4">
                     Checkout Url: <Link href={checkoutUrl} className={`text-blue-600 underline`} target="_blank"> {checkoutUrl}</Link>
+                </p>
+                <p className="text-base text-center self-start mt-4">
+                    Details Url: <Link href={detailsUrl} className={`text-blue-600 underline`} target="_blank"> {detailsUrl}</Link>
                 </p>
                 <div className="flex gap-2 items-center mt-4">
                     <Link href={`/admin/products/${title.replace(" ", "-")}-${id}`} className={`${buttonVariants()}`}>

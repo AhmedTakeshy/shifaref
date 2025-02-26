@@ -21,7 +21,6 @@ export default function UpdateProduct({ product }: UpdateProductProps) {
     const [isPending, setIsPending] = useState<boolean>(false)
     const [removeImagePending, startTransition] = useTransition()
     const [images, setImages] = useState<string[]>(product.images)
-    console.log("🚀 ~ UpdateProduct ~ optimisticImages:", images)
     const router = useRouter()
 
 
@@ -35,6 +34,7 @@ export default function UpdateProduct({ product }: UpdateProductProps) {
             images: [],
             oldImages: images,
             checkoutUrl: product?.checkoutUrl ?? "",
+            detailsUrl: product?.detailsUrl ?? "",
         },
     })
 

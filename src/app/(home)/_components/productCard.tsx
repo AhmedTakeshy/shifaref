@@ -18,11 +18,12 @@ type ProductCardProps = {
     categoryName: string;
     images: string[];
     checkoutUrl: string;
+    detailsUrl: string;
     description: string
 };
 
 
-export default function ProductCard({ title, images, checkoutUrl, description, categoryName, price, id }: ProductCardProps) {
+export default function ProductCard({ title, images, checkoutUrl, detailsUrl, description, categoryName, price, id }: ProductCardProps) {
     const [active, setActive] = useState<ProductCardProps | boolean | null>(
         null
     );
@@ -190,14 +191,21 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        className="flex items-center gap-4"
+                                        className="flex sm:flex-row flex-col items-center gap-4"
                                     >
                                         <Link href={active.checkoutUrl}
                                             rel={"noopener noreferrer"}
                                             target="_blank"
                                             className="px-4 py-3 text-sm font-bold text-white transition-colors duration-300 border-2 border-transparent hover:text-dark-green-15 bg-light-green-70 rounded-xl hover:border-light-green-70 hover:bg-transparent "
                                         >
-                                            Checkout
+                                            Order
+                                        </Link>
+                                        <Link href={active.detailsUrl}
+                                            rel={"noopener noreferrer"}
+                                            target="_blank"
+                                            className="px-4 py-3 text-sm font-bold text-dark-green-15 transition-colors duration-300 border-2 hover:text-white hover:bg-light-green-70 rounded-xl border-light-green-70 bg-transparent "
+                                        >
+                                            Details
                                         </Link>
                                     </motion.div>
                                 </div>
@@ -223,7 +231,7 @@ export default function ProductCard({ title, images, checkoutUrl, description, c
                 layoutId={`card-${title}-${id}`}
                 key={title}
                 onClick={() => {
-                    setActive({ title, categoryName, images, checkoutUrl, description, price, id })
+                    setActive({ title, categoryName, images, detailsUrl, checkoutUrl, description, price, id })
                     handleActiveProduct(title)
                 }}
                 className="flex flex-col p-4 cursor-pointer hover:bg-light-green-90 dark:hover:bg-neutral-800 rounded-xl"

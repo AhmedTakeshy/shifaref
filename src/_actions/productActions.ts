@@ -79,7 +79,7 @@ export async function createProductAction(data: CreateProductSchema): Promise<Se
         if (!result.success) {
             return { status: "Error", errorMessage: "Invalid form data!", statusCode: 401 }
         }
-        const { title, description, price, category, images, checkoutUrl, } = result.data
+        const { title, description, price, category, images, checkoutUrl, detailsUrl } = result.data
         const uploadedUrls = [];
         for (const file of Array.from(images)) {
             const imageUrl = await uploadImage(file);
@@ -104,7 +104,8 @@ export async function createProductAction(data: CreateProductSchema): Promise<Se
                     }
                 },
                 images: uploadedUrls,
-                checkoutUrl
+                checkoutUrl,
+                detailsUrl,
             }
         })
         revalidateTag("get-products")
@@ -147,7 +148,7 @@ export async function updateProductAction({ data, productId }: { data: UpdatePro
         if (!result.success) {
             return { status: "Error", errorMessage: "Invalid form data!", statusCode: 401 }
         }
-        const { title, description, price, category, images, checkoutUrl, oldImages } = result.data
+        const { title, description, price, category, images, checkoutUrl, oldImages, detailsUrl } = result.data
         const uploadedUrls: string[] = [];
         if (images.length > 0) {
             for (const file of Array.from(images)) {
@@ -176,6 +177,7 @@ export async function updateProductAction({ data, productId }: { data: UpdatePro
                 },
                 images: uploadedUrls.concat(oldImages),
                 checkoutUrl,
+                detailsUrl,
             }
         })
         revalidateTag("get-products")

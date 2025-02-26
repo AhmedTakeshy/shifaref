@@ -197,7 +197,25 @@ export default function ProductForm<T extends FieldValues>({ mode, isPending, on
                             <FormControl>
                                 <Input
                                     type="text"
-                                    placeholder="https://example.com"
+                                    placeholder="https://shifaref.com"
+                                    className="bg-white dark:bg-slate-200 focus:ring-0 border-none"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={control}
+                    name={"detailsUrl" as Path<T>}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="dark:text-white">Details URL</FormLabel>
+                            <FormControl>
+                                <Input
+                                    type="text"
+                                    placeholder="https://shifaref.com"
                                     className="bg-white dark:bg-slate-200 focus:ring-0 border-none"
                                     {...field}
                                 />

@@ -24,6 +24,7 @@ export default function CreateProduct() {
       category: "",
       images: [],
       checkoutUrl: "",
+      detailsUrl: "",
     },
   })
 

@@ -78,6 +78,7 @@ const baseProductSchema = z.object({
     category: z.string().min(3),
     images: z.array(z.instanceof(File)),
     checkoutUrl: z.string().url(),
+    detailsUrl: z.string().url(),
 });
 
 export const createProductSchema = baseProductSchema;
