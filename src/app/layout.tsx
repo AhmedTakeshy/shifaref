@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import "@/styles/globals.css";
 import { Toaster } from "@/_components/ui/sonner"
+import { Analytics } from "@vercel/analytics/react"
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -111,6 +112,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
       >
         <Toaster richColors />
         {children}
+        <Analytics />
       </body>
     </html>
   );
